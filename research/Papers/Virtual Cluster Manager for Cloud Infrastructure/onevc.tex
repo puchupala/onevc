@@ -1,0 +1,741 @@
+
+%% bare_conf.tex
+%% V1.3
+%% 2007/01/11
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.7 or later) with an IEEE conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, IEEEtran_HOWTO.pdf, bare_adv.tex,
+%%                    bare_conf.tex, bare_jrnl.tex, bare_jrnl_compsoc.tex
+%%*************************************************************************
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[conference]{IEEEtran}
+% Add the compsoc option for Computer Society conferences.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
+
+
+
+
+
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
+
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/oberdiek/
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 4.0 (2003-05-27) and later if using hyperref.sty. cite.sty does
+% not currently provide for hyperlinked citations.
+% The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/cite/
+% The documentation is contained in the cite.sty file itself.
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  \graphicspath{{pdf/}{jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  \graphicspath{{eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at: 
+% http://www.ctan.org/tex-archive/macros/latex/required/graphics/
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found as epslatex.ps or
+% epslatex.pdf at: http://www.ctan.org/tex-archive/info/
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage[cmex10]{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics. If using
+% it, be sure to load this package with the cmex10 option to ensure that
+% only type 1 fonts will utilized at all point sizes. Without this option,
+% it is possible that some math symbols, particularly those within
+% footnotes, will be rendered in bitmap form which will result in a
+% document that can not be IEEE Xplore compliant!
+%
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/amslatex/math/
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithms/
+% There is also a support site at:
+% http://algorithms.berlios.de/index.html
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/algorithmicx/
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
+% especially mdwmath.sty and mdwtab.sty which are used to format equations
+% and tables, respectively. The MDWtools set is already installed on most
+% LaTeX systems. The lastest version and documentation is available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+%\usepackage{eqparbox}
+% Also of notable interest is Scott Pakin's eqparbox package for creating
+% (automatically sized) equal width boxes - aka "natural width parboxes".
+% Available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
+
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\usepackage[tight,footnotesize]{subfigure}
+% subfigure.sty was written by Steven Douglas Cochran. This package makes it
+% easy to put subfigures in your figures. e.g., "Figure 1a and 1b". For IEEE
+% work, it is a good idea to load it with the tight package option to reduce
+% the amount of white space around the subfigures. subfigure.sty is already
+% installed on most LaTeX systems. The latest version and documentation can
+% be obtained at:
+% http://www.ctan.org/tex-archive/obsolete/macros/latex/contrib/subfigure/
+% subfigure.sty has been superceeded by subfig.sty.
+
+
+
+%\usepackage[caption=false]{caption}
+%\usepackage[font=footnotesize]{subfig}
+% subfig.sty, also written by Steven Douglas Cochran, is the modern
+% replacement for subfigure.sty. However, subfig.sty requires and
+% automatically loads Axel Sommerfeldt's caption.sty which will override
+% IEEEtran.cls handling of captions and this will result in nonIEEE style
+% figure/table captions. To prevent this problem, be sure and preload
+% caption.sty with its "caption=false" package option. This is will preserve
+% IEEEtran.cls handing of captions. Version 1.3 (2005/06/28) and later 
+% (recommended due to many improvements over 1.2) of subfig.sty supports
+% the caption=false option directly:
+%\usepackage[caption=false,font=footnotesize]{subfig}
+%
+% The latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/subfig/
+% The latest version and documentation of caption.sty can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/caption/
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/sttools/
+% Documentation is contained in the stfloats.sty comments as well as in the
+% presfull.pdf file. Do not use the stfloats baselinefloat ability as IEEE
+% does not allow \baselineskip to stretch. Authors submitting work to the
+% IEEE should note that IEEE rarely uses double column equations and
+% that authors should try to avoid such use. Do not be tempted to use the
+% cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
+% not format its papers in such ways.
+
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Virtual Cluster Manager for Cloud Infrastructure}
+
+
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Pongsakorn U-chupala}
+\IEEEauthorblockA{Faculty of Computer Engineering\\
+Kasetsart University, Bangkok, Thailand\\
+Email: knigthtbaron@gmail.com}}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
+\maketitle
+
+
+\begin{abstract}
+%\boldmath
+With cloud computing technology, specifically infrastructure as a service (IaaS), it is possible to conveniently deploy a virtual machine on the cloud.
+There are also a lot of cloud toolkit available to help administrator setup IaaS cloud.
+However, to deploy a set of virtual machine and configure them to work together as a virtual cluster is still a complicated and tedious task.
+Most cloud toolkit only individual virtual machine management none offer comprehensive virtual cluster management solution.
+To address this problem, I propose virtual cluster manager, a unified utility for virtual cluster management.
+This paper describe design and implementation of virtual cluster manager built on top of existing cloud toolkit as well as the case study of virtual cluster deployment in traditional way compare to using this utility.
+\end{abstract}
+% IEEEtran.cls defaults to using nonbold math in the Abstract.
+% This preserves the distinction between vectors and scalars. However,
+% if the conference you are submitting to favors bold math in the abstract,
+% then you can use LaTeX's standard command \boldmath at the very start
+% of the abstract to achieve this. Many IEEE journals/conferences frown on
+% math in the abstract anyway.
+
+% no keywords
+
+
+
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+
+\section{Introduction}
+% no \IEEEPARstart
+%This demo file is intended to serve as a ``starter file''
+%for IEEE conference papers produced under \LaTeX\ using
+%IEEEtran.cls version 1.7 and later.
+% You must have at least 2 lines in the paragraph with the drop letter
+% (should never be an issue)
+%I wish you the best of success.
+%\hfill mds 
+%\hfill January 11, 2007
+With cloud computing\cite{Armbrust:EECS-2009-28} being a buzzword recently, there are wide range of cloud computing toolkit available nowadays.
+Each provides services in different abstraction.
+In this research, I focus on Infrastructure as a Service\cite{ranabahu2009best} (IaaS) paradigm.
+These tools offer the ability to manage resources ubiquitously with united cloud interface.
+
+Even though virtual infrastructure (VI) provide virtually limitless computation capability to user.
+In reality, performance of each virtual machine (VM) running on the infrastructure is still limited by physical host machine.
+It turned out that we have already solved this problem with Cluster Computing.
+We could use this same methodology and create a cluster of VM instead of physical machine.
+This technology is called Virtual Cluster\cite{1630864} (VC).
+
+However, most VI toolkit (such as OpenNebula\cite{10.1109/MIC.2009.119} and Eucalyptus\cite{nurmi2009eucalyptus}) only focus on individual VM management.
+Even though it is possible deploy VC with these existing tools by configure and deploy each VM manually, There is no convenient way to manage VC as a whole yet.
+To simplify this process, I propose a utility which manage VC with existing VI toolkit.
+This utility will provide to user another layer of abstraction which allow user to view the system as a repository for VC.
+
+In this research, I developed CLI Utility called onevc for OpenNebula 3.0 (VI toolkit) which provide the ability to manage VC as a whole.
+This utility work alongside other built-in CLI utilities seamlessly and provide interface similar to existing built-in utilities for consistency.
+
+Following is the organization of this paper.
+Section II describes OpenNebula in general and similar utility called ``oneservice'' and differences between ``oneservice'' and this research.
+Section III describe the architecture of VC manager.
+Section IV describe VC manager implementation based-on OpenNebula VI toolkit.
+Section V show a case study of VC deployment with existing tools compare to using VC manager.
+Section VI is the conclusion and future improvement ideas.
+
+%\subsection{Subsection Heading Here}
+%Subsection text here.
+%\subsubsection{Subsubsection Heading Here}
+%Subsubsection text here.
+
+
+% An example of a floating figure using the graphicx package.
+% Note that \label must occur AFTER (or within) \caption.
+% For figures, \caption should occur after the \includegraphics.
+% Note that IEEEtran v1.7 and later has special internal code that
+% is designed to preserve the operation of \label within \caption
+% even when the captionsoff option is in effect. However, because
+% of issues like this, it may be the safest practice to put all your
+% \label just after \caption rather than within \caption{}.
+%
+% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
+% option should be used if it is desired that the figures are to be
+% displayed while in draft mode.
+%
+
+% Note that IEEE typically puts floats only at the top, even when this
+% results in a large percentage of a column being occupied by floats.
+
+
+% An example of a double column floating figure using two subfigures.
+% (The subfig.sty package must be loaded for this to work.)
+% The subfigure \label commands are set within each subfloat command, the
+% \label for the overall figure must come after \caption.
+% \hfil must be used as a separator to get equal spacing.
+% The subfigure.sty package works much the same way, except \subfigure is
+% used instead of \subfloat.
+%
+%\begin{figure*}[!t]
+%\centerline{\subfloat[Case I]\includegraphics[width=2.5in]{subfigcase1}%
+%\label{fig_first_case}}
+%\hfil
+%\subfloat[Case II]{\includegraphics[width=2.5in]{subfigcase2}%
+%\label{fig_second_case}}}
+%\caption{Simulation results}
+%\label{fig_sim}
+%\end{figure*}
+%
+% Note that often IEEE papers with subfigures do not employ subfigure
+% captions (using the optional argument to \subfloat), but instead will
+% reference/describe all of them (a), (b), etc., within the main caption.
+
+
+% An example of a floating table. Note that, for IEEE style tables, the 
+% \caption command should come BEFORE the table. Table text will default to
+% \footnotesize as IEEE normally uses this smaller font for tables.
+% The \label must come after \caption as always.
+%
+%\begin{table}[!t]
+%% increase table row spacing, adjust to taste
+%\renewcommand{\arraystretch}{1.3}
+% if using array.sty, it might be a good idea to tweak the value of
+% \extrarowheight as needed to properly center the text within the cells
+%\caption{An Example of a Table}
+%\label{table_example}
+%\centering
+%% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+%\begin{tabular}{|c||c|}
+%\hline
+%One & Two\\
+%\hline
+%Three & Four\\
+%\hline
+%\end{tabular}
+%\end{table}
+
+
+% Note that IEEE does not put floats in the very first column - or typically
+% anywhere on the first page for that matter. Also, in-text middle ("here")
+% positioning is not used. Most IEEE journals/conferences use top floats
+% exclusively. Note that, LaTeX2e, unlike IEEE journals/conferences, places
+% footnotes above bottom floats. This can be corrected via the \fnbelowfloat
+% command of the stfloats package.
+
+\section{Related work}
+
+\subsection{OpenNebula}
+OpenNebula is VI manager. It orchestrate VM placement, networking and resources such as disk images and expose unified cloud interface to its user, thus create an Infrastructure as a Service (IaaS).
+It enable creation of private cloud with existing resources.
+OpenNebula also feature its modular architecture which allow it to work with wide range of hypervisor.
+This feature also enable OpenNebula to support creation of hybrid cloud as well.
+
+\subsection{oneservice}
+There is a concept of service which consist of multiple VM working together being developed for OpenNebula.
+For an example a web server service could consists of web servers, database servers and load-balancers.
+oneservice\cite{oneservice} utility allow user to describe service and its dependencies with Service Description Language (SDL).
+This idea is similar to the virtual cluster but the key difference is service management allow user to manage as group of virtual machine as a whole while virtual cluster management allow user to manage the whole cluster or just a subset of machines in the cluster.
+
+\section{Architecture}
+Similar to how onevm works, to describe a VC to onevc utility, I use hierarchical template system.
+This template system allow user to describe VC attributes in one single template file.
+This template extend existing VM template system by introducing template for VC.
+onevc utility take VC template as an input and register the VC to database.
+After that, user can instruct onevc to do management operations on registered VC or each VM type individually.
+Supported management operations are create, deploy, suspend, stop, resume, delete, list and show.
+
+\subsection{Virtual Cluster Model}
+In this research, I define VC with a hierarchical model.
+A VC consists of one or multiple VM Type, served as a grouping method for VM.
+A number of VM could be instantiate in each VM type.
+Figure \ref{fig:model} shows hierarchy of VC in this model.
+
+One VC is one frontend machine and a number of compute node.
+To represent this VC with this model, I use 2 VM type to represent frontend VC and compute node VM.
+frontend VM type contains only one VM while compute nodes VM type contains n number of VM.
+
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{model}
+\caption{Virtual Cluster Model Hierachy}
+\label{fig:model}
+\end{figure}
+
+\subsection{Virtual Cluster Template}
+To describe VC with my model, I use template.
+For each VC, a VC template is used to describe its properties.
+This VC template syntax is the same with OpenNebula template syntax to preserve consistency with others built-in utilities, to be more familiar to user.
+VC properties may include information such as name, VC types and number of VM to deploy for each VM type.
+To describe each VM type in VC template, we use the same OpenNebula VM template structure.
+we also allow pointing to external VM template path or template id of template registered in onetemplate built-in utility.
+If VC template is defined with either of this 2 methods, we also allow VM type template overriding from VC template as well.
+This allows VM type sharing between many VC template as we could modify VC specific configuration such as networking as needed.
+Each VM type is also configurable with external deployment policy such as ``with parent'', ``after parent'' or ``manual'' and internal deployment policy such as ``all together'' or ``one by one''.
+These policies will be use to determine deployment order of each VM for automatic cluster deployment.
+See figure \ref{fig:template} for an example of Rocks Cluster VC template
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{template}
+\caption{Example VC template (detail omitted)}
+\label{fig:template}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3in]{state}
+\caption{VC and VM type state diagram}
+\label{fig:state}
+\end{figure}
+
+% CHANGE TITLE AND REWRITE THIS PART
+\section{Implementation}
+User supply VC template to onevc in the same fashion as with onevm utility. onevc will then validate the template and put it into OpenNebula database. User could then deploy registered VC and do management tasks with onevc utility.
+
+After VC is registered to onevc. It will be in ``deploy'' state.
+Each VM type in the VC will be in ``deploy'' state as well.
+State of VM type is shift along with VC management operations.
+State shifting is described in figure \ref{fig:state}
+State of VC will be in ``shift'' intermediate state until all VM types of the VC are shifted to the same state.
+Once all VM type is in the same state, VC will be set to that state as well.
+
+onevc utility support these operations.
+
+\begin{itemize}
+\item \texttt{create} register VC template to onevc utility
+\item \texttt{deploy} deploy specify VC or specify VM type according to VM type hierarchy and deployment policy in VC template
+\item \texttt{suspend} suspend VC or specify VM type in reverse order of deployment
+\item \texttt{stop} stop VC or specify VM type in reverse order of deployment
+\item \texttt{resume} resume VC or specify VM type in the same order as deployment
+\item \texttt{delete} delete VC or specify VM type in reverse order of deployment
+\item \texttt{list} list registered VCs and their statuses
+\item \texttt{show} show specify VC information
+\end{itemize}
+
+\section{Case Study}
+Using the example VC template in Figure \ref{fig:template}, I deploy the VC with existing utility and onevc utility.
+
+\subsection{With existing built-in utility}
+Firstly, I created 2 templates for frontend and compute nodes and register it to onetemplate built-in utility with this command.
+
+\texttt{\$ onetemplate create <path\_to\_templatefile>}
+
+Then, I instantiate 1 frontend VM follow by a number of compute node.
+To instantiate VM with onetemplate, I used this command.
+
+\texttt{\$ onetemplate instantiate <template\_id>}
+
+Where \texttt{<template\_id>} is one template's template id given to registered template.
+It took 2 commands to register template and 1 command to instantiate each VM so I used 2+n commands in total.
+I also need to maintain each template individually and make sure that configurations in both template worked together.
+
+\subsection{With onevc utility}
+
+Let the name of VC configuration file is \texttt{myrockscluster.one}, Firstly, user need to register the template with this command
+
+\texttt{\$ onevc create myrockscluster.one}
+
+After registration, user can use this command.
+
+\texttt{\$ onevc deploy myrockscluster}
+
+According to deployment policies in the template, onevm will deploy frontend VM first.
+After it reach ``running'' state, it will deploy n number of compute nodes at once.
+User can choose to deploy each VM type manually by using these following commands. 
+
+\texttt{\$ onevc deploy myrockscluster frontend}
+
+\texttt{\$ onevc deploy myrockscluster computenodes}
+
+Note that if fronted VM type isn't at ``running'' state when user manually deploy compute nodes then onevm will try to move frontend to ``running'' state by deploying or resuming as necessary.
+
+In total, I used 2 commands for automatic deployment and 3 commands for manual VM type deployment regardless of how many compute nodes are there in the cluster.
+
+\section{Conclusion and Future Work}
+In this paper, we describe a convenient utility for VC management with existing VI toolkit.
+Instead of management each VM in a VC individually, this utility offers a method to manage VC as a whole.
+In order to flexibly describe VC, I use hierarchical VC model along with the template system.
+This template system also offer policy configurations which to be used alongside VM type hierarchy to determine deployment order.
+With this architecture, I implemented onevc utility for OpenNebula and show how to deploy typical VC with this tool compare with existing built-in utility.
+It is clear from the result that this utility made VC management simpler.
+
+However, We only look into VC management and leave VC template management totally to user.
+For this issue, We could create another utility to manage VC template.
+This utility could work in the same manner as onetemplate built-in utility of OpenNebula manage VM template but with VC template instead.
+
+% conference papers do not normally have an appendix
+
+
+% use section* for acknowledgement
+%\section*{Acknowledgment}
+%The authors would like to thank...
+
+
+
+
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+\bibliography{IEEEabrv,bibdesk}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+%\begin{thebibliography}{1}
+%
+%\bibitem{10.1109/MIC.2009.119}
+%B.~Sotomayor, R.~S. Montero, I.~M. Llorente, and I.~Foster.
+%\newblock Virtual infrastructure management in private and hybrid clouds.
+%\newblock {\em IEEE Internet Computing}, 13(5):14--22, 2009.
+%
+%\bibitem{1630864}
+%I.~Foster, T.~Freeman, K.~Keahy, D.~Scheftner, B.~Sotomayer, and X.~Zhang.
+%\newblock Virtual clusters for grid communities.
+%\newblock In {\em Cluster Computing and the Grid, 2006. CCGRID 06. Sixth IEEE
+%  International Symposium on}, volume~1, pages 513 -- 520, {may} 2006.
+%
+%\end{thebibliography}
+
+
+
+
+% that's all folks
+\end{document}
+
+
