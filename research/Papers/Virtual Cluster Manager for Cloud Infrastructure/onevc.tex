@@ -400,7 +400,7 @@ With cloud computing technology, specifically infrastructure as a service (IaaS)
 There are also a lot of cloud toolkit available to help administrator setup IaaS cloud.
 However, to deploy a set of virtual machine and configure them to work together as a virtual cluster is still a complicated and tedious task.
 Most cloud toolkit only individual virtual machine management none offer comprehensive virtual cluster management solution.
-To address this problem, I propose virtual cluster manager, a unified utility for virtual cluster management.
+To address this problem, We propose virtual cluster manager, a unified utility for virtual cluster management.
 This paper describe design and implementation of virtual cluster manager built on top of existing cloud toolkit as well as the case study of virtual cluster deployment in traditional way compare to using this utility.
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
@@ -439,7 +439,7 @@ This paper describe design and implementation of virtual cluster manager built o
 %\hfill January 11, 2007
 With cloud computing\cite{Armbrust:EECS-2009-28} being a buzzword recently, there are wide range of cloud computing toolkit available nowadays.
 Each provides services in different abstraction.
-In this research, I focus on Infrastructure as a Service\cite{ranabahu2009best} (IaaS) paradigm.
+In this research, We focus on Infrastructure as a Service\cite{ranabahu2009best} (IaaS) paradigm.
 These tools offer the ability to manage resources ubiquitously with united cloud interface.
 
 Even though virtual infrastructure (VI) provide virtually limitless computation capability to user.
@@ -450,10 +450,10 @@ This technology is called Virtual Cluster\cite{1630864} (VC).
 
 However, most VI toolkit (such as OpenNebula\cite{10.1109/MIC.2009.119} and Eucalyptus\cite{nurmi2009eucalyptus}) only focus on individual VM management.
 Even though it is possible deploy VC with these existing tools by configure and deploy each VM manually, There is no convenient way to manage VC as a whole yet.
-To simplify this process, I propose a utility which manage VC with existing VI toolkit.
+To simplify this process, We propose a utility which manage VC with existing VI toolkit.
 This utility will provide to user another layer of abstraction which allow user to view the system as a repository for VC.
 
-In this research, I developed CLI Utility called onevc for OpenNebula 3.0 (VI toolkit) which provide the ability to manage VC as a whole.
+In this research, We developed CLI Utility called onevc for OpenNebula 3.0 (VI toolkit) which provide the ability to manage VC as a whole.
 This utility work alongside other built-in CLI utilities seamlessly and provide interface similar to existing built-in utilities for consistency.
 
 Following is the organization of this paper.
@@ -557,7 +557,7 @@ oneservice\cite{oneservice} utility allow user to describe service and its depen
 This idea is similar to the virtual cluster but the key difference is service management allow user to manage as group of virtual machine as a whole while virtual cluster management allow user to manage the whole cluster or just a subset of machines in the cluster.
 
 \section{Architecture}
-Similar to how onevm works, to describe a VC to onevc utility, I use hierarchical template system.
+Similar to how onevm works, to describe a VC to onevc utility, We use hierarchical template system.
 This template system allow user to describe VC attributes in one single template file.
 This template extend existing VM template system by introducing template for VC.
 onevc utility take VC template as an input and register the VC to database.
@@ -565,13 +565,13 @@ After that, user can instruct onevc to do management operations on registered VC
 Supported management operations are create, deploy, suspend, stop, resume, delete, list and show.
 
 \subsection{Virtual Cluster Model}
-In this research, I define VC with a hierarchical model.
+In this research, We define VC with a hierarchical model.
 A VC consists of one or multiple VM Type, served as a grouping method for VM.
 A number of VM could be instantiate in each VM type.
 Figure \ref{fig:model} shows hierarchy of VC in this model.
 
 One VC is one frontend machine and a number of compute node.
-To represent this VC with this model, I use 2 VM type to represent frontend VC and compute node VM.
+To represent this VC with this model, We use 2 VM type to represent frontend VC and compute node VM.
 frontend VM type contains only one VM while compute nodes VM type contains n number of VM.
 
 
@@ -583,7 +583,7 @@ frontend VM type contains only one VM while compute nodes VM type contains n num
 \end{figure}
 
 \subsection{Virtual Cluster Template}
-To describe VC with my model, I use template.
+To describe VC with my model, We use template.
 For each VC, a VC template is used to describe its properties.
 This VC template syntax is the same with OpenNebula template syntax to preserve consistency with others built-in utilities, to be more familiar to user.
 VC properties may include information such as name, VC types and number of VM to deploy for each VM type.
@@ -634,21 +634,21 @@ onevc utility support these operations.
 \end{itemize}
 
 \section{Case Study}
-Using the example VC template in Figure \ref{fig:template}, I deploy the VC with existing utility and onevc utility.
+Using the example VC template in Figure \ref{fig:template}, We deploy the VC with existing utility and onevc utility.
 
 \subsection{With existing built-in utility}
-Firstly, I created 2 templates for frontend and compute nodes and register it to onetemplate built-in utility with this command.
+Firstly, We created 2 templates for frontend and compute nodes and register it to onetemplate built-in utility with this command.
 
 \texttt{\$ onetemplate create <path\_to\_templatefile>}
 
-Then, I instantiate 1 frontend VM follow by a number of compute node.
-To instantiate VM with onetemplate, I used this command.
+Then, We instantiate 1 frontend VM follow by a number of compute node.
+To instantiate VM with onetemplate, We used this command.
 
 \texttt{\$ onetemplate instantiate <template\_id>}
 
 Where \texttt{<template\_id>} is one template's template id given to registered template.
-It took 2 commands to register template and 1 command to instantiate each VM so I used 2+n commands in total.
-I also need to maintain each template individually and make sure that configurations in both template worked together.
+It took 2 commands to register template and 1 command to instantiate each VM so We used 2+n commands in total.
+We also need to maintain each template individually and make sure that configurations in both template worked together.
 
 \subsection{With onevc utility}
 
@@ -670,14 +670,14 @@ User can choose to deploy each VM type manually by using these following command
 
 Note that if fronted VM type isn't at ``running'' state when user manually deploy compute nodes then onevm will try to move frontend to ``running'' state by deploying or resuming as necessary.
 
-In total, I used 2 commands for automatic deployment and 3 commands for manual VM type deployment regardless of how many compute nodes are there in the cluster.
+In total, We used 2 commands for automatic deployment and 3 commands for manual VM type deployment regardless of how many compute nodes are there in the cluster.
 
 \section{Conclusion and Future Work}
 In this paper, we describe a convenient utility for VC management with existing VI toolkit.
 Instead of management each VM in a VC individually, this utility offers a method to manage VC as a whole.
-In order to flexibly describe VC, I use hierarchical VC model along with the template system.
+In order to flexibly describe VC, We use hierarchical VC model along with the template system.
 This template system also offer policy configurations which to be used alongside VM type hierarchy to determine deployment order.
-With this architecture, I implemented onevc utility for OpenNebula and show how to deploy typical VC with this tool compare with existing built-in utility.
+With this architecture, We implemented onevc utility for OpenNebula and show how to deploy typical VC with this tool compare with existing built-in utility.
 It is clear from the result that this utility made VC management simpler.
 
 However, We only look into VC management and leave VC template management totally to user.
