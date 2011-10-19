@@ -570,15 +570,17 @@ A VC consists of one or multiple VM Type, served as a grouping method for VM.
 A number of VM could be instantiate in each VM type.
 Figure \ref{fig:model} shows hierarchy of VC in this model.
 
-One VC is one frontend machine and a number of compute node.
-To represent this VC with this model, We use 2 VM type to represent frontend VC and compute node VM.
-frontend VM type contains only one VM while compute nodes VM type contains n number of VM.
+VM types in VC also forming it own hierarchy.
+We use this hierarchy along with other configurations to determine deployment order of each VM in a VC.
 
+One example is a VC with one frontend machine and a number of compute node.
+To represent this VC with this model, We use 2 VM type to represent frontend VC and compute node VM.
+frontend VM type contains only one VM while compute nodes VM type contains n number of VM with compute nodes VM type being a child of frontend VM type.
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=3in]{model}
-\caption{Virtual Cluster Model Hierachy}
+\includegraphics[width=3.5in]{model}
+\caption{Hierarchical Model of Virtual Cluster}
 \label{fig:model}
 \end{figure}
 
@@ -597,11 +599,24 @@ Each VM type is also configurable with external deployment policy such as ``with
 These policies will be use to determine deployment order of each VM for automatic cluster deployment.
 See figure \ref{fig:template} for an example of Rocks Cluster VC template
 
+To determine deployment order, firstly, we use external deployment policy and VM type hierarchy to determine deployment order of VM type.
+VM type that don't have parent will be deploy first.
+If there are any child VM type of these VM which external deployment policy set to ``with parent'', those VM type will be deploy at the same time.
+After all of these VM type successfully deployed (reached ``running'' state), their childs will be deploy next, and so on until all VM type is deployed.
+For deployment order of each machine in the same VM type, we use internal deployment policy.
+
 \begin{figure}[!t]
 \centering
 \includegraphics[width=2.5in]{template}
 \caption{Example VC template (detail omitted)}
 \label{fig:template}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1in]{hierarchy}
+\caption{VM Type Hierarchy of Example VC template}
+\label{fig:hierarchy}
 \end{figure}
 
 \subsection{Virtual Cluster State}
@@ -617,7 +632,7 @@ Otherwise, the VC is assigned ``shift'' intermediate state to indicate that the 
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=3in]{state}
+\includegraphics[width=3.5in]{state}
 \caption{VC and VM type state diagram}
 \label{fig:state}
 \end{figure}
