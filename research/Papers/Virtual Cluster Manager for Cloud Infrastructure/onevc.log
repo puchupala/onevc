@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=latex 2011.9.14)  19 OCT 2011 12:02
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=latex 2011.9.14)  19 OCT 2011 16:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -149,38 +149,43 @@ File: eps/model.eps Graphic file (type eps)
 File: eps/template.eps Graphic file (type eps)
  <eps/template.eps>
 File: eps/state.eps Graphic file (type eps)
- <eps/state.eps>
+ <eps/state.eps> [2]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 626.
+(Font)              <7> on input line 635.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 626.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 626.
+(Font)              <5> on input line 635.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 635.
 
 
 (/usr/local/texlive/2011/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [2]
-Underfull \hbox (badness 10000) in paragraph at lines 642--643
+)
+Underfull \hbox (badness 10000) in paragraph at lines 651--652
 []\OT1/pcr/m/n/10 $ onetemplate create
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 655--656
+Underfull \hbox (badness 10000) in paragraph at lines 664--665
 []\OT1/ptm/m/n/10 Let the name of VC con-fig-u-ra-tion file is
  []
 
 
-Underfull \hbox (badness 2828) in paragraph at lines 655--656
+Underfull \hbox (badness 2828) in paragraph at lines 664--665
 \OT1/pcr/m/n/10 myrockscluster.one\OT1/ptm/m/n/10 , Firstly, user need to reg-i
 s-ter
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 669--670
+Underfull \hbox (badness 10000) in paragraph at lines 678--679
 []\OT1/pcr/m/n/10 $ onevc deploy myrockscluster
  []
 
-(./onevc.bbl)
+(./onevc.bbl
+Underfull \hbox (badness 2119) in paragraph at lines 64--67
+[]\OT1/ptm/m/n/8 Managing vir-tual ma-chines 3.0. [On-line]. Avail-able:
+ []
+
+)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -194,12 +199,12 @@ Before submitting the final camera ready copy, remember to:
 
 [3] (./onevc.aux) ) 
 Here is how much of TeX's memory you used:
- 1258 strings out of 493634
- 20479 string characters out of 3143400
- 76328 words of memory out of 3000000
- 4606 multiletter control sequences out of 15000+200000
+ 1259 strings out of 493634
+ 20497 string characters out of 3143400
+ 77328 words of memory out of 3000000
+ 4607 multiletter control sequences out of 15000+200000
  25572 words of font info for 56 fonts, out of 3000000 for 9000
  834 hyphenation exceptions out of 8191
  26i,8n,21p,277b,293s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on onevc.dvi (3 pages, 17516 bytes).
+Output written on onevc.dvi (3 pages, 18400 bytes).

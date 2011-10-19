@@ -587,10 +587,12 @@ To describe VC with my model, We use template.
 For each VC, a VC template is used to describe its properties.
 This VC template syntax is the same with OpenNebula template syntax to preserve consistency with others built-in utilities, to be more familiar to user.
 VC properties may include information such as name, VC types and number of VM to deploy for each VM type.
+
 To describe each VM type in VC template, we use the same OpenNebula VM template structure.
-we also allow pointing to external VM template path or template id of template registered in onetemplate built-in utility.
+We also allow pointing to external VM template path or template id of template registered in onetemplate built-in utility.
 If VC template is defined with either of this 2 methods, we also allow VM type template overriding from VC template as well.
 This allows VM type sharing between many VC template as we could modify VC specific configuration such as networking as needed.
+
 Each VM type is also configurable with external deployment policy such as ``with parent'', ``after parent'' or ``manual'' and internal deployment policy such as ``all together'' or ``one by one''.
 These policies will be use to determine deployment order of each VM for automatic cluster deployment.
 See figure \ref{fig:template} for an example of Rocks Cluster VC template
@@ -602,6 +604,17 @@ See figure \ref{fig:template} for an example of Rocks Cluster VC template
 \label{fig:template}
 \end{figure}
 
+\subsection{Virtual Cluster State}
+We assign state to each VM type in a VC and the VC itself in order to keep tracking.
+During initialization, all VM type will be assigned to ``pending'' state.
+State of VM type is shifted along with VC management operations (deploy, suspend, resume, etc.).
+State shifting is described in figure \ref{fig:state}.
+These states was designed to support OpenNebula's VM state\cite{opennebula-state} and bear a similarity with it.
+In a sense, they are like a simplify version or OpenNebula's VM state.
+
+When all VM type in a VC is in the same state, VC itself is assigned with that state as well.
+Otherwise, the VC is assigned ``shift'' intermediate state to indicate that the state is being shifted and currently inconsistent.
+
 \begin{figure}[!t]
 \centering
 \includegraphics[width=3in]{state}
@@ -611,19 +624,15 @@ See figure \ref{fig:template} for an example of Rocks Cluster VC template
 
 % CHANGE TITLE AND REWRITE THIS PART
 \section{Implementation}
-User supply VC template to onevc in the same fashion as with onevm utility. onevc will then validate the template and put it into OpenNebula database. User could then deploy registered VC and do management tasks with onevc utility.
-
-After VC is registered to onevc. It will be in ``deploy'' state.
-Each VM type in the VC will be in ``deploy'' state as well.
-State of VM type is shift along with VC management operations.
-State shifting is described in figure \ref{fig:state}
-State of VC will be in ``shift'' intermediate state until all VM types of the VC are shifted to the same state.
-Once all VM type is in the same state, VC will be set to that state as well.
+User supply VC template to onevc in the same fashion as with onevm utility.
+onevc will then validate the template, put it into onevc database and assign all VM type and the VC itself with ``pending'' state.
+After that, onevc will create all VC with OpenNebula and put all of them in OpenNebula's ``pending'' state, waiting for deployment.
+User could then deploy registered VC and do management tasks with onevc utility.
 
 onevc utility support these operations.
 
 \begin{itemize}
-\item \texttt{create} register VC template to onevc utility
+\item \texttt{create} register VC template to onevc utility and initialize VC
 \item \texttt{deploy} deploy specify VC or specify VM type according to VM type hierarchy and deployment policy in VC template
 \item \texttt{suspend} suspend VC or specify VM type in reverse order of deployment
 \item \texttt{stop} stop VC or specify VM type in reverse order of deployment

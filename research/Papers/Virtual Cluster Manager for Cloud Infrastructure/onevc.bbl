@@ -41,6 +41,11 @@ I.~Foster, T.~Freeman, K.~Keahy, D.~Scheftner, B.~Sotomayer, and X.~Zhang,
   Grid, 2006. CCGRID 06. Sixth IEEE International Symposium on}, vol.~1, {may}
   2006, pp. 513 -- 520.
 
+\bibitem{10.1109/MIC.2009.119}
+B.~Sotomayor, R.~S. Montero, I.~M. Llorente, and I.~Foster, ``Virtual
+  infrastructure management in private and hybrid clouds,'' \emph{IEEE Internet
+  Computing}, vol.~13, no.~5, pp. 14--22, 2009.
+
 \bibitem{nurmi2009eucalyptus}
 D.~Nurmi, R.~Wolski, C.~Grzegorczyk, G.~Obertelli, S.~Soman, L.~Youseff, and
   D.~Zagorodnov, ``The eucalyptus open-source cloud-computing system,'' in
@@ -48,15 +53,16 @@ D.~Nurmi, R.~Wolski, C.~Grzegorczyk, G.~Obertelli, S.~Soman, L.~Youseff, and
   Computing and the Grid}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE Computer
   Society, 2009, pp. 124--131.
 
-\bibitem{10.1109/MIC.2009.119}
-B.~Sotomayor, R.~S. Montero, I.~M. Llorente, and I.~Foster, ``Virtual
-  infrastructure management in private and hybrid clouds,'' \emph{IEEE Internet
-  Computing}, vol.~13, no.~5, pp. 14--22, 2009.
-
 \bibitem{oneservice}
 \BIBentryALTinterwordspacing
 W.~Iqbal. (2010, 11) Opennebula service manager. [Online]. Available:
   \url{http://opennebula.org/software:ecosystem:oneservice}
+\BIBentrySTDinterwordspacing
+
+\bibitem{opennebula-state}
+\BIBentryALTinterwordspacing
+Managing virtual machines 3.0. [Online]. Available:
+  \url{http://opennebula.org/documentation:rel3.0:vm\_guide\_2}
 \BIBentrySTDinterwordspacing
 
 \end{thebibliography}
