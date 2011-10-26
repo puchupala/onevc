@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=latex 2011.9.14)  21 SEP 2011 12:03
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=latex 2011.9.14)  26 OCT 2011 14:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -101,8 +101,39 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
 \@IEEEtmpitemindent=\dimen116
 \c@IEEEbiography=\count90
 \@IEEEtranrubishbin=\box26
+) (/usr/local/texlive/2011/texmf-dist/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/usr/local/texlive/2011/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
 )
-No file bare_conf.aux.
+(/usr/local/texlive/2011/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2010/01/14 v3.1m caption3 kernel (AR)
+\captionmargin=\dimen117
+\captionmargin@=\dimen118
+\captionwidth=\dimen119
+\caption@indent=\dimen120
+\caption@parindent=\dimen121
+\caption@hangindent=\dimen122
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used on input line 1084.
+)
+\c@KVtest=\count91
+\sf@farskip=\skip44
+\sf@captopadj=\dimen123
+\sf@capskip=\skip45
+\sf@nearskip=\skip46
+\c@subfigure=\count92
+\c@subfigure@save=\count93
+\c@lofdepth=\count94
+\c@subtable=\count95
+\c@subtable@save=\count96
+\c@lotdepth=\count97
+\sf@top=\skip47
+\sf@bottom=\skip48
+)
+(./bare_conf.aux)
 \openout1 = `bare_conf.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 351.
@@ -117,43 +148,37 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 351.
 LaTeX Font Info:    ... okay on input line 351.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 351.
 LaTeX Font Info:    ... okay on input line 351.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
+LaTeX Info: Redefining \subref on input line 351.
+Package caption Info: End \AtBeginDocument code.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 407.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 436.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 436.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 577.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 577.
 
-** Conference Paper **
-Before submitting the final camera ready copy, remember to:
+./bare_conf.tex:491: Undefined control sequence.
+<argument> \includegraphics 
+                            
+l.491 \label{fig_first_case}}
+                             
+? 
+./bare_conf.tex:491: Emergency stop.
+<argument> \includegraphics 
+                            
+l.491 \label{fig_first_case}}
+                             
+End of file on the terminal!
 
- 1. Manually equalize the lengths of two columns on the last page
- of your paper;
-
- 2. Ensure that any PostScript and/or PDF output post-processing
- uses only Type 1 fonts and that every step in the generation
- process uses the appropriate paper size.
-
-[1
-
-
-
-] (./bare_conf.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+ 
 Here is how much of TeX's memory you used:
- 907 strings out of 493634
- 15873 string characters out of 3143400
- 66168 words of memory out of 3000000
- 4282 multiletter control sequences out of 15000+200000
- 28246 words of font info for 63 fonts, out of 3000000 for 9000
+ 1598 strings out of 493634
+ 28310 string characters out of 3143400
+ 82078 words of memory out of 3000000
+ 4967 multiletter control sequences out of 15000+200000
+ 25875 words of font info for 56 fonts, out of 3000000 for 9000
  834 hyphenation exceptions out of 8191
- 26i,8n,19p,397b,295s stack positions out of 5000i,500n,10000p,200000b,50000s
-
-Output written on bare_conf.dvi (1 page, 3300 bytes).
+ 36i,8n,38p,397b,295s stack positions out of 5000i,500n,10000p,200000b,50000s
+No pages of output.

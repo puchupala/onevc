@@ -65,4 +65,13 @@ Managing virtual machines 3.0. [Online]. Available:
   \url{http://opennebula.org/documentation:rel3.0:vm\_guide\_2}
 \BIBentrySTDinterwordspacing
 
+\bibitem{CPE:CPE722}
+\BIBentryALTinterwordspacing
+P.~M. Papadopoulos, M.~J. Katz, and G.~Bruno, ``Npaci rocks: tools and
+  techniques for easily deploying manageable linux clusters,''
+  \emph{Concurrency and Computation: Practice and Experience}, vol.~15, no.
+  7-8, pp. 707--725, 2003. [Online]. Available:
+  \url{http://dx.doi.org/10.1002/cpe.722}
+\BIBentrySTDinterwordspacing
+
 \end{thebibliography}

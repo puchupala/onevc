@@ -261,7 +261,7 @@
 
 
 %\usepackage[caption=false]{caption}
-%\usepackage[font=footnotesize]{subfig}
+\usepackage[font=footnotesize]{subfig}
 % subfig.sty, also written by Steven Douglas Cochran, is the modern
 % replacement for subfigure.sty. However, subfig.sty requires and
 % automatically loads Axel Sommerfeldt's caption.sty which will override
@@ -357,7 +357,7 @@
 \author{\IEEEauthorblockN{Pongsakorn U-chupala}
 \IEEEauthorblockA{Faculty of Computer Engineering\\
 Kasetsart University, Bangkok, Thailand\\
-Email: knigthtbaron@gmail.com}}
+Email: b5105274@ku.ac.th}}
 
 % conference papers do not typically use \thanks and this command
 % is locked out in conference mode. If really needed, such as for
@@ -410,8 +410,10 @@ This paper describe design and implementation of virtual cluster manager built o
 % of the abstract to achieve this. Many IEEE journals/conferences frown on
 % math in the abstract anyway.
 
-% no keywords
-
+%\begin{IEEEkeywords}
+%Cloud Computing; Virtual Cluster; Virtual Infrastructure;
+%
+%\end{IEEEkeywords}
 
 
 
@@ -544,11 +546,36 @@ Section VI is the conclusion and future improvement ideas.
 
 \section{Related work}
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.2in]{onearch}
+\caption{OpenNebula software stack (implified)}
+\label{fig:onearch}
+\end{figure}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=6.5in]{onevm}
+\caption{Onevm operation flow}
+\label{fig:onevm}
+\end{figure*}
+
 \subsection{OpenNebula}
+In this paper and in our VC manager design, We refer to OpenNebula a lot so it is needed to explained briefly about OpenNebula and its architecture.
+
 OpenNebula is VI manager. It orchestrate VM placement, networking and resources such as disk images and expose unified cloud interface to its user, thus create an Infrastructure as a Service (IaaS).
 It enable creation of private cloud with existing resources.
 OpenNebula also feature its modular architecture which allow it to work with wide range of hypervisor.
 This feature also enable OpenNebula to support creation of hybrid cloud as well.
+
+To archive high level of scalability, OpenNebula architecture is designed to be modular.
+Using drivers, OpenNebula can be plugged into wide range of datacenter services.
+The software stack also divided into multiple layers.
+This approach allow us to modify and extend OpenNebula as needed.
+
+OpenNebula is shipped with a number of CLI utilities such as onevm, onevnet, onehost and onetemplate.
+Each utility connect to OpenNebula via OpenNebula Cloud API (OCA) and provide abilities to manage many aspect of the cloud.
+To deploy a VM with OpenNebula, user need to set up OpenNebula
 
 \subsection{oneservice}
 There is a concept of service which consist of multiple VM working together being developed for OpenNebula.
@@ -557,11 +584,11 @@ oneservice\cite{oneservice} utility allow user to describe service and its depen
 This idea is similar to the virtual cluster but the key difference is service management allow user to manage as group of virtual machine as a whole while virtual cluster management allow user to manage the whole cluster or just a subset of machines in the cluster.
 
 \section{Architecture}
-Similar to how onevm works, to describe a VC to onevc utility, We use hierarchical template system.
+Similar to how onevm utility of OpenNebula works, to describe a VC to VC manager, We use hierarchical template system.
 This template system allow user to describe VC attributes in one single template file.
 This template extend existing VM template system by introducing template for VC.
-onevc utility take VC template as an input and register the VC to database.
-After that, user can instruct onevc to do management operations on registered VC or each VM type individually.
+VC manager take VC template as an input and register the VC to database.
+After that, user can instruct the manager to do management operations on registered VC or each VM type individually.
 Supported management operations are create, deploy, suspend, stop, resume, delete, list and show.
 
 \subsection{Virtual Cluster Model}
@@ -580,7 +607,7 @@ frontend VM type contains only one VM while compute nodes VM type contains n num
 \begin{figure}[!t]
 \centering
 \includegraphics[width=3.5in]{model}
-\caption{Hierarchical Model of Virtual Cluster}
+\caption{Hierarchical model of virtual cluster}
 \label{fig:model}
 \end{figure}
 
@@ -615,7 +642,7 @@ For deployment order of each machine in the same VM type, we use internal deploy
 \begin{figure}[!t]
 \centering
 \includegraphics[width=1in]{hierarchy}
-\caption{VM Type Hierarchy of Example VC template}
+\caption{VM type hierarchy of example VC template}
 \label{fig:hierarchy}
 \end{figure}
 
@@ -633,12 +660,22 @@ Otherwise, the VC is assigned ``shift'' intermediate state to indicate that the 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=3.5in]{state}
-\caption{VC and VM type state diagram}
+\caption{VC and VM Type state diagram}
 \label{fig:state}
 \end{figure}
 
-% CHANGE TITLE AND REWRITE THIS PART
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=6.5in]{onevc}
+\caption{Onevc operation flow}
+\label{fig:onevc}
+\end{figure*}
+
 \section{Implementation}
+VC Manager is implemented as OpenNebula CLI utility and named onevc for consistency with other OpenNebula CLI utilities.
+It works along with other built-in CLI utilities on the same layer and relied on the same Ruby OCA interface.
+However, we need to create another table in the database to hold VC information.
+
 User supply VC template to onevc in the same fashion as with onevm utility.
 onevc will then validate the template, put it into onevc database and assign all VM type and the VC itself with ``pending'' state.
 After that, onevc will create all VC with OpenNebula and put all of them in OpenNebula's ``pending'' state, waiting for deployment.
@@ -658,9 +695,14 @@ onevc utility support these operations.
 \end{itemize}
 
 \section{Case Study}
+To show advantages of our manager design, let's take a look at the following cases.
+ 
+\subsection{Ease of use}
+We use number of command used to deploy a VC to demonstrate ease of use of the manager.
+The less command needed, the more convenient it is.
 Using the example VC template in Figure \ref{fig:template}, We deploy the VC with existing utility and onevc utility.
 
-\subsection{With existing built-in utility}
+\subsubsection{With existing built-in utility}
 Firstly, We created 2 templates for frontend and compute nodes and register it to onetemplate built-in utility with this command.
 
 \texttt{\$ onetemplate create <path\_to\_templatefile>}
@@ -674,7 +716,7 @@ Where \texttt{<template\_id>} is one template's template id given to registered 
 It took 2 commands to register template, 1 command to instantiate fronted and 1 command to instantiate each compute node so We used 3+n commands in total.
 We also need to maintain each template individually and make sure that configurations in both template worked together.
 
-\subsection{With onevc utility}
+\subsubsection{With onevc utility}
 
 Let the name of VC configuration file is \texttt{myrockscluster.one}, Firstly, user need to register the template with this command
 
@@ -695,6 +737,31 @@ User can choose to deploy each VM type manually by using these following command
 Note that if fronted VM type isn't at ``running'' state when user manually deploy compute nodes then onevm will try to move frontend to ``running'' state by deploying or resuming as necessary.
 
 In total, We used 2 commands for automatic deployment and 3 commands for manual VM type deployment regardless of how many compute nodes are there in the cluster.
+
+\subsection{Template Reusability}
+With VM type hierarchical structure.
+It is possible to reuse VM type across multiple VC.
+To demonstrate this point, we use number of template needed as a measurement.
+In this case, we will deploy 3 virtual Rocks Clusters\cite{CPE:CPE722} with different number of compute node for each VC (l, m and n compute nodes).
+
+\subsubsection{With existing built-in utility}
+For each VC, we need 2 VM templates file for frontend node and compute node.
+Even if some part of frontend node and compute node share the same configuration, there are differences between each template (such as network configuration to use) so configuration file need to be duplicated and maintained individually.
+In total, 6 VM templates are needed.
+Each node also need to be deployed manually so OpenNebula can not keep track of number of compute node for each VC at all.
+Figure \ref{fig:vmtypeshare} show VC Hierarchy of this configurations.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{vmtypeshare}
+\caption{VM type sharing between multiple VC}
+\label{fig:vmtypeshare}
+\end{figure}
+
+\subsubsection{With onevc utility}
+Because frontend node and compute node for each VC bare similarity, we define them with single VM type template for each one.
+Each VC can just point to these 2 VM type template, specify number of compute node needed and override unique configuration for each VC.
+We need 3 VC template and 2 VM type template so there are 6 templates needed in total.
 
 \section{Conclusion and Future Work}
 In this paper, we describe a convenient utility for VC management with existing VI toolkit.
