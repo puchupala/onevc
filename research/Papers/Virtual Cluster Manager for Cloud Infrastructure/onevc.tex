@@ -518,7 +518,7 @@ Section VI is the conclusion and future improvement ideas.
 % The \label must come after \caption as always.
 %
 %\begin{table}[!t]
-%% increase table row spacing, adjust to taste
+% increase table row spacing, adjust to taste
 %\renewcommand{\arraystretch}{1.3}
 % if using array.sty, it might be a good idea to tweak the value of
 % \extrarowheight as needed to properly center the text within the cells
@@ -527,11 +527,23 @@ Section VI is the conclusion and future improvement ideas.
 %\centering
 %% Some packages, such as MDW tools, offer better commands for making tables
 %% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
+%\begin{tabular}{|c|c|}
 %\hline
-%One & Two\\
+%oid & Two\\
 %\hline
-%Three & Four\\
+%name & Four\\
+%\hline
+%body & Four\\
+%\hline
+%uid & Four\\
+%\hline
+%gid & Four\\
+%\hline
+%last_poll & Four\\
+%\hline
+%state & Four\\
+%\hline
+%lcm_state & Four\\
 %\hline
 %\end{tabular}
 %\end{table}
@@ -549,7 +561,7 @@ Section VI is the conclusion and future improvement ideas.
 \begin{figure}[!t]
 \centering
 \includegraphics[width=2.2in]{onearch}
-\caption{OpenNebula software stack (implified)}
+\caption{OpenNebula software stack (simplified)}
 \label{fig:onearch}
 \end{figure}
 
@@ -673,9 +685,27 @@ Otherwise, the VC is assigned ``shift'' intermediate state to indicate that the 
 
 \section{Implementation}
 VC Manager is implemented as OpenNebula CLI utility and named onevc for consistency with other OpenNebula CLI utilities.
-It works along with other built-in CLI utilities on the same layer and relied on the same Ruby OCA interface.
-However, we need to create another table in the database to hold VC information.
+onevc is written in Ruby just like other built-in CLI utilities.
+It works along with other built-in CLI utilities on the same layer and relied on the same OCA interface.
+However, we need to create some more tables in the database to hold VC information.
 
+\subsection{Database}
+We uses existing mechanism to manage VM so it use existing \texttt{vm\_pool} table as well.
+For VM type, we use existing template system and by storing VM type configuration as template in existing \texttt{template\_pool}.
+We define 3 additional tables in the database, \texttt{vc\_pool}, \texttt{vc\_node} and \texttt{vm\_type}.
+\texttt{vc\_pool} stores VCs registered to onevc, their configuration from their template and their state.
+\texttt{vm\_type} associates each VM type specify in VC template with the actual VM type configuration stored in \texttt{template\_pool}
+\texttt{vc\_node} associates each VM with its VC in \texttt{vc\_pool} and VM type in \texttt{template\_pool} as well as recording its state.
+Figure \ref{fig:database} show relationship of between each table.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{database}
+\caption{ER diagram of onevc database}
+\label{fig:database}
+\end{figure}
+
+\subsection{Operation}
 User supply VC template to onevc in the same fashion as with onevm utility.
 onevc will then validate the template, put it into onevc database and assign all VM type and the VC itself with ``pending'' state.
 After that, onevc will create all VC with OpenNebula and put all of them in OpenNebula's ``pending'' state, waiting for deployment.
