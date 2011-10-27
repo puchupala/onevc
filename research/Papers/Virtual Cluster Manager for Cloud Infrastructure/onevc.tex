@@ -459,10 +459,10 @@ In this research, We developed CLI Utility called onevc for OpenNebula 3.0 (VI t
 This utility work alongside other built-in CLI utilities seamlessly and provide interface similar to existing built-in utilities for consistency.
 
 Following is the organization of this paper.
-Section II describes OpenNebula in general and similar utility called ``oneservice'' and differences between ``oneservice'' and this research.
+Section II describes OpenNebula in general, similar utility called ``oneservice'' and differences between ``oneservice'' and this research.
 Section III describe the architecture of VC manager.
-Section IV describe VC manager implementation based-on OpenNebula VI toolkit.
-Section V show a case study of VC deployment with existing tools compare to using VC manager.
+Section IV describe VC manager implementation based on OpenNebula VI toolkit.
+Section V demonstrate cases where VC manager performs better than existing utilities and their measurement.
 Section VI is the conclusion and future improvement ideas.
 
 %\subsection{Subsection Heading Here}
@@ -568,14 +568,14 @@ Section VI is the conclusion and future improvement ideas.
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=6.5in]{onevm}
-\caption{Onevm operation flow with one deployed VM}
+\caption{Onevm VM deployment process with one deployed VM}
 \label{fig:onevm}
 \end{figure*}
 
 \subsection{OpenNebula}
 In this paper and in our VC manager design, We refer to OpenNebula a lot so it is needed to explained briefly about OpenNebula and its architecture.
 
-OpenNebula is VI manager. It orchestrate VM placement, networking and resources such as disk images and expose unified cloud interface to its user, thus create an Infrastructure as a Service (IaaS).
+OpenNebula is VI manager. It orchestrate VM placement, networking and resources such as disk images and expose unified cloud interface to its user, thus create an Infrastructure as a Service (IaaS) cloud.
 It enable creation of private cloud with existing resources.
 OpenNebula also feature its modular architecture which allow it to work with wide range of hypervisor.
 This feature also enable OpenNebula to support creation of hybrid cloud as well.
@@ -584,10 +584,17 @@ To archive high level of scalability, OpenNebula architecture is designed to be 
 Using drivers, OpenNebula can be plugged into wide range of datacenter services.
 The software stack also divided into multiple layers.
 This approach allow us to modify and extend OpenNebula as needed.
+Figure \ref{fig:onearch} architecture of show OpenNebula software stack.
 
-OpenNebula is shipped with a number of CLI utilities such as onevm, onevnet, onehost and onetemplate.
+To manage the cloud, OpenNebula is shipped with a number of built-in CLI utilities such as onevm, onevnet, onehost and onetemplate.
+These utilities provide information as well as perform various tasks on each subsystem of OpenNebula.
 Each utility connect to OpenNebula via OpenNebula Cloud API (OCA) and provide abilities to manage many aspect of the cloud.
-To deploy a VM with OpenNebula, user need to set up OpenNebula
+OpenNebula maintain pool of host, disk image, network configuration, VM template and VM instance with onehost, oneimage, onevnet, onetemplate and onevm respectively.
+To register configuration into each pool, user need to provide template to each utility accordingly (i.e. supply network configuration template to onevnet to add network configuration the pool) with the exception of onehost which accept parameters directly from the shell.
+VM template could then refer registered resources (network configuration, disk image, etc.) to be used.
+
+After all configurations are in place, to deploy VM, user could register VM template to template pool and use onetemplate utility to instantiate VM instance or just supply the template to onevm utility directly.
+Figure \ref{fig:onevm} show deployment operation flow of onevm.
 
 \subsection{oneservice}
 There is a concept of service which consist of multiple VM working together being developed for OpenNebula.
@@ -623,6 +630,20 @@ frontend VM type contains only one VM while compute nodes VM type contains n num
 \label{fig:model}
 \end{figure}
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=2.5in]{template}
+\caption{Example VC template (detail omitted)}
+\label{fig:template}
+\end{figure}
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=1in]{hierarchy}
+\caption{VM type hierarchy of example VC template}
+\label{fig:hierarchy}
+\end{figure}
+
 \subsection{Virtual Cluster Template}
 To describe VC with my model, We use template.
 For each VC, a VC template is used to describe its properties.
@@ -646,16 +667,9 @@ For deployment order of each machine in the same VM type, we use internal deploy
 
 \begin{figure}[!t]
 \centering
-\includegraphics[width=2.5in]{template}
-\caption{Example VC template (detail omitted)}
-\label{fig:template}
-\end{figure}
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=1in]{hierarchy}
-\caption{VM type hierarchy of example VC template}
-\label{fig:hierarchy}
+\includegraphics[width=3.5in]{state}
+\caption{VC and VM Type state diagram}
+\label{fig:state}
 \end{figure}
 
 \subsection{Virtual Cluster State}
@@ -669,17 +683,10 @@ In a sense, they are like a simplify version or OpenNebula's VM state.
 When all VM type in a VC is in the same state, VC itself is assigned with that state as well.
 Otherwise, the VC is assigned ``shift'' intermediate state to indicate that the state is being shifted and currently inconsistent.
 
-\begin{figure}[!t]
-\centering
-\includegraphics[width=3.5in]{state}
-\caption{VC and VM Type state diagram}
-\label{fig:state}
-\end{figure}
-
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=6.5in]{onevc}
-\caption{Onevc operation flow with 1 deployed VC of 3 VM}
+\caption{Onevc VC deployment process with 1 deployed VC of 3 VM}
 \label{fig:onevc}
 \end{figure*}
 
@@ -707,15 +714,16 @@ Figure \ref{fig:database} show relationship of between each table.
 
 \subsection{Operation}
 User supply VC template to onevc in the same fashion as with onevm utility.
-onevc will then validate the template, put it into onevc database and assign all VM type and the VC itself with ``pending'' state.
+onevc will then validate the template, put it into onevc \texttt{vc\_pool} table and assign all VM type and the VC itself with ``pending'' state.
 After that, onevc will create all VC with OpenNebula and put all of them in OpenNebula's ``pending'' state, waiting for deployment.
 User could then deploy registered VC and do management tasks with onevc utility.
+Figure \ref{fig:onevc} show VC deployment process of onevc.
 
 onevc utility support these operations.
 
 \begin{itemize}
 \item \texttt{create} register VC template to onevc utility and initialize VC
-\item \texttt{deploy} deploy specify VC or specify VM type according to VM type hierarchy and deployment policy in VC template
+\item \texttt{deploy} deploy specify VC or specify VM type according to VM type hierarchy and deployment policy in VC template 
 \item \texttt{suspend} suspend VC or specify VM type in reverse order of deployment
 \item \texttt{stop} stop VC or specify VM type in reverse order of deployment
 \item \texttt{resume} resume VC or specify VM type in the same order as deployment
@@ -725,7 +733,7 @@ onevc utility support these operations.
 \end{itemize}
 
 \section{Case Study}
-To show advantages of our manager design, let's take a look at the following cases.
+To show advantages of our manager design, let us take a look at the following cases.
  
 \subsection{Ease of use}
 We use number of command used to deploy a VC to demonstrate ease of use of the manager.
