@@ -354,10 +354,10 @@
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
-\author{\IEEEauthorblockN{Pongsakorn U-chupala}
-\IEEEauthorblockA{Faculty of Computer Engineering\\
-Kasetsart University, Bangkok, Thailand\\
-Email: b5105274@ku.ac.th}}
+%\author{\IEEEauthorblockN{Pongsakorn U-chupala}
+%\IEEEauthorblockA{Faculty of Computer Engineering\\
+%Kasetsart University, Bangkok, Thailand\\
+%Email: b5105274@ku.ac.th}}
 
 % conference papers do not typically use \thanks and this command
 % is locked out in conference mode. If really needed, such as for
@@ -367,19 +367,27 @@ Email: b5105274@ku.ac.th}}
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
 % 
-%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
-%Homer Simpson\IEEEauthorrefmark{2},
-%James Kirk\IEEEauthorrefmark{3}, 
-%Montgomery Scott\IEEEauthorrefmark{3} and
-%Eldon Tyrell\IEEEauthorrefmark{4}}
-%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
-%Georgia Institute of Technology,
-%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
-%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
-%Email: homer@thesimpsons.com}
-%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
-%Telephone: (800) 555--1212, Fax: (888) 555--1212}
-%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+\author{\IEEEauthorblockN{Pongsakorn U-chupala\IEEEauthorrefmark{1},
+Kohei Ichikawa\IEEEauthorrefmark{2},
+Hirotake Abe\IEEEauthorrefmark{3}, 
+Susumu Date\IEEEauthorrefmark{4} and
+Shinji Shimojo\IEEEauthorrefmark{5}}
+\IEEEauthorblockA{\IEEEauthorrefmark{1}Department of Computer Engineering, 
+Kasetsart University, Bangkok, Thailand\\
+Email: see http://aosekai.net/about/}
+\IEEEauthorblockA{\IEEEauthorrefmark{2}Central Office for Information Infrastructure, 
+Osaka University, Osaka, Japan\\
+Email: ichikawa@cmc.osaka-u.ac.jp}
+\IEEEauthorblockA{\IEEEauthorrefmark{3}Cybermedia Center, 
+Osaka University, Osaka, Japan\\
+Email: habe@cmc.osaka-u.ac.jp}
+\IEEEauthorblockA{\IEEEauthorrefmark{4}Cybermedia Center, 
+Osaka University, Osaka, Japan\\
+Email: date@ais.cmc.osaka-u.ac.jp}
+\IEEEauthorblockA{\IEEEauthorrefmark{5}Cybermedia Center, 
+Osaka University, Osaka, Japan\\
+Email: shimojo@cmc.osaka-u.ac.jp}
+}
 
 
 
@@ -609,6 +617,13 @@ VC manager takes VC template as an input and register the VC to the database.
 After that, user can instruct the manager to do management operations on registered VC or each VM type individually.
 Supported management operations are create, deploy, suspend, stop, resume, delete, list and show.
 
+\begin{figure}[!t]
+\centering
+\includegraphics[width=3.5in]{model}
+\caption{Hierarchical model of virtual cluster}
+\label{fig:model}
+\end{figure}
+
 \subsection{Virtual Cluster Model}
 In this research, we define VC with a hierarchical model.
 A VC consists of one or multiple VM Type, served as a grouping method for VM.
@@ -621,13 +636,6 @@ We use this hierarchy along with other configurations to determine deployment or
 One example is a VC with one frontend machine and a number of compute nodes.
 To represent this VC with this model, we use 2 VM types to represent frontend VC and compute node VM.
 The frontend VM type contains only one VM while the compute nodes VM type contains n number of VM with the compute nodes VM type being a child of the frontend VM type.
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=3.5in]{model}
-\caption{Hierarchical model of virtual cluster}
-\label{fig:model}
-\end{figure}
 
 \begin{figure}[!t]
 \centering
@@ -671,6 +679,13 @@ For deployment order of each machine in the same VM type, we use internal deploy
 \label{fig:state}
 \end{figure}
 
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=6.5in]{onevc}
+\caption{Onevc VC deployment process with 1 deployed VC of 3 VM}
+\label{fig:onevc}
+\end{figure*}
+
 \subsection{Virtual Cluster State}
 We assign state to each VM type in a VC and the VC itself in order to keep tracking.
 During initialization, all VM type will be assigned to ``pending'' state.
@@ -681,13 +696,6 @@ In a sense, they are like a simplify version or OpenNebula's VM state.
 
 When all VM type in a VC is in the same state, VC itself is assigned with that state as well.
 Otherwise, the VC is assigned ``shift'' intermediate state to indicate that the state is being shifted and currently inconsistent.
-
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=6.5in]{onevc}
-\caption{Onevc VC deployment process with 1 deployed VC of 3 VM}
-\label{fig:onevc}
-\end{figure*}
 
 \section{Implementation}
 VC Manager is implemented as OpenNebula CLI utility and named onevc for consistency with other OpenNebula CLI utilities.
@@ -721,14 +729,14 @@ Figure \ref{fig:onevc} shows the VC deployment process of onevc.
 onevc utility support the following operations.
 
 \begin{itemize}
-\item \textbf{\texttt{create}} register VC template to onevc utility and initialize VC
-\item \textbf{\texttt{deploy}} deploy specified VC or specified VM type according to VM type hierarchy and deployment policy in VC template 
-\item \textbf{\texttt{suspend}} suspend VC or specified VM type in reverse order of deployment
-\item \textbf{\texttt{stop}} stop VC or specified VM type in reverse order of deployment
-\item \textbf{\texttt{resume}} resume VC or specified VM type in the same order as deployment
-\item \textbf{\texttt{delete}} delete VC or specified VM type in reverse order of deployment
-\item \textbf{\texttt{list}} list registered VCs and their statuses
-\item \textbf{\texttt{show}} show specified VC information
+\item \texttt{create}\\ register VC template to onevc utility and initialize VC
+\item \texttt{deploy}\\ deploy specified VC or specified VM type according to VM type hierarchy and deployment policy in VC template 
+\item \texttt{suspend}\\ suspend VC or specified VM type in reverse order of deployment
+\item \texttt{stop}\\ stop VC or specified VM type in reverse order of deployment
+\item \texttt{resume}\\ resume VC or specified VM type in the same order as deployment
+\item \texttt{delete}\\ delete VC or specified VM type in reverse order of deployment
+\item \texttt{list}\\ list registered VCs and their statuses
+\item \texttt{show}\\ show specified VC information
 \end{itemize}
 
 \section{Case Study}
