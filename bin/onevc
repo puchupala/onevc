@@ -13,3 +13,16 @@ $: << RUBY_LIB_LOCATION+"/cli"
 
 require 'command_parser'
 require 'one_helper/onevc_helper'
+
+cmd=CommandParser::CmdParser.new(ARGV) do
+  usage "`onevc` <command> [<args>] [<options>]"
+  version OpenNebulaHelper::ONE_VERSION
+  
+  helper = OneVCHelper.new
+  
+  ########################################################################
+  # Global Options
+  ########################################################################
+  set :option, CommandParser::OPTIONS
+  
+end
