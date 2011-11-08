@@ -1,28 +1,68 @@
 #!/usr/bin/env ruby
 
-ONE_LOCATION=ENV["ONE_LOCATION"]
+ONE_LOCATION = ENV["ONE_LOCATION"]
 
 if !ONE_LOCATION
-    RUBY_LIB_LOCATION="/usr/lib/one/ruby"
+    RUBY_LIB_LOCATION = "/usr/lib/one/ruby"
+    VAR_LOCATION      = "/var/lib/one"
+    ETC_LOCATION      = "/etc/one"
+    LOCK_FILE         = "/var/lock/one/one"
 else
-    RUBY_LIB_LOCATION=ONE_LOCATION+"/lib/ruby"
+    RUBY_LIB_LOCATION = ONE_LOCATION + "/lib/ruby"
+    VAR_LOCATION      = ONE_LOCATION + "/var"
+    ETC_LOCATION      = ONE_LOCATION + "/etc"
+    LOCK_FILE         = VAR_LOCATION + "/.lock"
 end
 
 $: << RUBY_LIB_LOCATION
-$: << RUBY_LIB_LOCATION+"/cli"
+$: << RUBY_LIB_LOCATION + "/cli"
+$: << RUBY_LIB_LOCATION + "/onevc"
 
 require 'command_parser'
 require 'one_helper/onevc_helper'
 
 cmd=CommandParser::CmdParser.new(ARGV) do
-  usage "`onevc` <command> [<args>] [<options>]"
-  version OpenNebulaHelper::ONE_VERSION
-  
-  helper = OneVCHelper.new
-  
-  ########################################################################
-  # Global Options
-  ########################################################################
-  set :option, CommandParser::OPTIONS
-  
+    usage "`onevc` <command> [<args>] [<options>]"
+    version OpenNebulaHelper::ONE_VERSION
+
+    helper = OneVCHelper.new
+
+    ########################################################################
+    # Global Options
+    ########################################################################
+    set :option, CommandParser::OPTIONS
+
+    ########################################################################
+    # Formatters for arguments
+    ########################################################################
+    set :format, :vcid, OneVCHelper.to_id_desc do |arg|
+        helper.to_id(arg)
+    end
+
+    set :format, :vcid_list, OneVCHelper.list_to_id_desc do |arg|
+        helper.list_to_id(arg)
+    end
+
+    set :format, :vmtid, OneVCHelper.to_id_desc do |arg|
+        helper.to_id(arg)
+    end
+
+    set :format, :vmtid_list, OneVCHelper.list_to_id_desc do |arg|
+        helper.list_to_id(arg)
+    end
+
+    ########################################################################
+    # Commands
+    ########################################################################
+
+    create_desc = <<-EOT.unindent
+    Creates a new VC from the given template file.
+    EOT
+    command :create, create_desc, :file do
+        helper.create_resource(options) do |vc|
+            template = File.read(args[0])
+            error = vc.allocate(template)
+        end
+    end
+
 end
