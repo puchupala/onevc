@@ -60,8 +60,8 @@ cmd=CommandParser::CmdParser.new(ARGV) do
     EOT
     command :create, create_desc, :file do
         helper.create_resource(options) do |vc|
-            template = File.read(args[0])
-            error = vc.allocate(template)
+            # template = args[0]
+            error = vc.allocate(args[0])
         end
     end
 

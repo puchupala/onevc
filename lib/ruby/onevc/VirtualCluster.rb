@@ -39,7 +39,8 @@ protected
 public
 
     # No purpose, for compatibility with OneHelper
-    def allocate(description)
+    def allocate(file)
+        config = Configuration.new(file)
         # TODO: Code Me
         @id = 1101
     end
