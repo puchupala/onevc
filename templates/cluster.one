@@ -1,4 +1,4 @@
-NAME   = "Rocks Cluster"
+VC_NAME   = "Rocks Cluster"
 
 NODE_TYPE = [
     NAME = "Frontend",

@@ -16,6 +16,7 @@ end
 
 $: << RUBY_LIB_LOCATION
 $: << RUBY_LIB_LOCATION + "/cli"
+$: << RUBY_LIB_LOCATION + "/onedb"
 $: << RUBY_LIB_LOCATION + "/onevc"
 
 require 'command_parser'

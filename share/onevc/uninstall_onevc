@@ -16,8 +16,9 @@ end
 
 $: << RUBY_LIB_LOCATION
 $: << RUBY_LIB_LOCATION + "/onedb"
+$: << RUBY_LIB_LOCATION + "/onevc"
 
-require File.join(File.dirname(__FILE__), 'onevc_backend' )
+require 'onevc_backend'
 
 if $0 == __FILE__    
     db = OneVCBackend::get_backend().db()
