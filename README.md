@@ -1,5 +1,4 @@
 # OneVC
-
 OneVC is as CLI virtual cluster manager for [OpenNebula](http://opennebula.org).
 
 ## Installation
