@@ -1,16 +1,22 @@
-require 'onedb/Configuration'
-require 'onedb/onedb_backend'
+require 'Configuration'
+require 'onedb_backend'
 
-class VirtualCluster
+# Extract db object from OneDBBackEnd
+class OneDBBacKEnd
     
-protected
-
-    def initialize()
-        read_onedconf
+    public
+    
+    def db
+        connect_db
+        return @db
     end
     
-    # Taken from onedb/onedb.rb
-    def read_onedconf()
+end
+
+class OneVCBackend
+    
+    # Modified from read_onedconf of onedb/onedb.rb
+    def self.get_backend()
         config = Configuration.new("#{ETC_LOCATION}/oned.conf")
 
         if config[:db] == nil
@@ -19,9 +25,9 @@ protected
 
         if config[:db]["BACKEND"].upcase.include? "SQLITE"
             sqlite_file = "#{VAR_LOCATION}/one.db"
-            @backend = BackEndSQLite.new(sqlite_file)
+            backend = BackEndSQLite.new(sqlite_file)
         elsif config[:db]["BACKEND"].upcase.include? "MYSQL"
-            @backend = BackEndMySQL.new(
+            backend = BackEndMySQL.new(
                 :server  => config[:db]["SERVER"],
                 :port    => config[:db]["PORT"],
                 :user    => config[:db]["USER"],
@@ -33,19 +39,7 @@ protected
                   "#{ETC_LOCATION}/oned.conf"
         end
 
-        return 0
-    end
-
-public
-
-    def allocate(file)
-        config = Configuration.new(file)
-        # TODO: Code Me
-        @id = 1101
-    end
-
-    def id
-        @id
+        return backend
     end
     
 end

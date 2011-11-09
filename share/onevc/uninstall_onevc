@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+ONE_LOCATION = ENV["ONE_LOCATION"]
+
+if !ONE_LOCATION
+    RUBY_LIB_LOCATION = "/usr/lib/one/ruby"
+    VAR_LOCATION      = "/var/lib/one"
+    ETC_LOCATION      = "/etc/one"
+    LOCK_FILE         = "/var/lock/one/one"
+else
+    RUBY_LIB_LOCATION = ONE_LOCATION + "/lib/ruby"
+    VAR_LOCATION      = ONE_LOCATION + "/var"
+    ETC_LOCATION      = ONE_LOCATION + "/etc"
+    LOCK_FILE         = VAR_LOCATION + "/.lock"
+end
+
+$: << RUBY_LIB_LOCATION
+$: << RUBY_LIB_LOCATION + "/onedb"
+
+require File.join(File.dirname(__FILE__), 'onevc_backend' )
+
+if $0 == __FILE__    
+    db = OneVCBackend::get_backend().db()
+    
+    ########################################################################
+    # Virtual Clusters
+    ########################################################################
+    
+    db.run("DROP TABLE IF EXISTS vc_pool;")
+    
+end

@@ -1,12 +1,12 @@
 NAME   = "Rocks Cluster"
 
-VM_TYPE = [
+NODE_TYPE = [
     NAME = "Frontend",
     TEMPLATE_ID = 0,
     NUMBER = 1
 ]
 
-VM_TYPE = [
+NODE_TYPE = [
     NAME = "Compute",
     CHILD_OF = "Frontend",
     TEMPLATE_ID = 1,
