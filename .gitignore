@@ -6,3 +6,7 @@
 *.out
 *.tmproj
 tmtags
+.idea
+.buildpath
+.project
+onevc.bbprojectd
