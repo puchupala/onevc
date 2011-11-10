@@ -1,6 +1,7 @@
 require 'Configuration'
 require 'onedb_backend'
 require 'onevc_backend'
+require 'NodeType'
 
 class VirtualCluster
     
@@ -37,19 +38,35 @@ protected
 
         return 0
     end
+    
+    def create_node(config)
+        node = NodeType.new
+        node.allocate(@id, config)
+    end
 
 public
 
     # TODO: Complete me
     def allocate(file)
         config = Configuration.new(file)
-                        
-        @db[:vc_pool].insert(:name=>config[:VC_NAME].gsub(/^["|'](.*?)["|']$/,'\1'), :body=>File.read(file))
         
+        # Create new VC in the database
+        @db[:vc_pool].insert(
+            :name => config[:VC_NAME].gsub(/^["|'](.*?)["|']$/,'\1'),
+            :body => File.read(file)
+        )
+        
+        # Set vcid for the instance
         @id = @db[:vc_pool].order(:oid.desc).first[:oid]
+        
+        config[:NODE_TYPE].each do |node_type|
+            create_node(node_type)
+        end
+        
+        return @id
     end
 
-    def id
+    def id()
         @id
     end
     

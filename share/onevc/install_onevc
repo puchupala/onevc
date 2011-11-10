@@ -33,4 +33,24 @@ if $0 == __FILE__
     db.run("DROP TABLE IF EXISTS vc_pool;")
     db.run("CREATE TABLE vc_pool (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, uid INTEGER, gid INTEGER);")
     
+    ########################################################################
+    # Node Types
+    ########################################################################
+    
+    # Schema
+    # CREATE TABLE node_types (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, vcid INTEGER, tid INTEGER, nt_state INTEGER);
+    
+    db.run("DROP TABLE IF EXISTS node_types;")
+    db.run("CREATE TABLE node_types (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, number INTEGER, vcid INTEGER, tid INTEGER);")
+    
+    ########################################################################
+    # Nodes
+    ########################################################################
+    
+    # Schema
+    # CREATE TABLE nodes (oid INTEGER PRIMARY KEY, vcid INTEGER, tid INTEGER, vmid INTEGER);
+    
+    db.run("DROP TABLE IF EXISTS nodes;")
+    db.run("CREATE TABLE nodes (oid INTEGER PRIMARY KEY, vcid INTEGER, ntid INTEGER, vmid INTEGER);")
+    
 end

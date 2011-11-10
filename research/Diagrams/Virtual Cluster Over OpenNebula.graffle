@@ -26,7 +26,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2011-10-26 15:07:34 +0000</string>
+	<string>2011-11-10 05:14:53 +0000</string>
 	<key>Modifier</key>
 	<string>KnightBaron</string>
 	<key>NotesVisible</key>
@@ -56,11 +56,6 @@
 		<array>
 			<string>int</string>
 			<string>1</string>
-		</array>
-		<key>NSPaperName</key>
-		<array>
-			<string>string</string>
-			<string>A4</string>
 		</array>
 		<key>NSPaperSize</key>
 		<array>
@@ -1884,8 +1879,8 @@
 					<real>66.130661010742188</real>
 					<key>Points</key>
 					<array>
-						<string>{528.00006, 324}</string>
-						<string>{542.23315, 207.47852}</string>
+						<string>{528.00006, 323.5}</string>
+						<string>{542.24152, 207.47868}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -1981,8 +1976,8 @@
 					<integer>1</integer>
 					<key>Points</key>
 					<array>
-						<string>{176.10397, 80.381577}</string>
-						<string>{148.23764, 98.731339}</string>
+						<string>{175.98553, 80.294495}</string>
+						<string>{147.72398, 98.728546}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -2960,8 +2955,8 @@
 					<integer>1</integer>
 					<key>Points</key>
 					<array>
-						<string>{169.25052, 99.301201}</string>
-						<string>{146.19881, 116.69843}</string>
+						<string>{169.2509, 99.301208}</string>
+						<string>{146.19908, 116.6988}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -2995,8 +2990,8 @@
 					<integer>1</integer>
 					<key>Points</key>
 					<array>
-						<string>{71.075005, 99.499374}</string>
-						<string>{70.224915, 116.50063}</string>
+						<string>{71.075043, 99.499374}</string>
+						<string>{70.224991, 116.50063}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -3028,8 +3023,8 @@
 					<integer>1</integer>
 					<key>Points</key>
 					<array>
-						<string>{261.4993, 189.1991}</string>
-						<string>{287.68799, 189.32626}</string>
+						<string>{261.49988, 189.0827}</string>
+						<string>{287.42093, 189.13498}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -6240,8 +6235,8 @@ Hold initialization script and VM parameters included networking stuffs}</string
 					<integer>0</integer>
 					<key>Points</key>
 					<array>
-						<string>{314.50943, 71.893982}</string>
-						<string>{220.57582, 90.398674}</string>
+						<string>{314.50879, 71.428635}</string>
+						<string>{217.32198, 89.908875}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -6681,8 +6676,8 @@ Hold initialization script and VM parameters included networking stuffs}</string
 					<integer>3</integer>
 					<key>Points</key>
 					<array>
-						<string>{306.5, 153.0005}</string>
-						<string>{332.24304, 153.00082}</string>
+						<string>{306.5, 153.0002}</string>
+						<string>{332.24243, 153.00034}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -7224,8 +7219,8 @@ Hold initialization script and VM parameters included networking stuffs}</string
 					<integer>3</integer>
 					<key>Points</key>
 					<array>
-						<string>{145.99007, 117.49503}</string>
-						<string>{148.40933, 134.50829}</string>
+						<string>{145.99928, 117.49497}</string>
+						<string>{148.5, 135}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -7259,8 +7254,8 @@ Hold initialization script and VM parameters included networking stuffs}</string
 					<integer>3</integer>
 					<key>Points</key>
 					<array>
-						<string>{230.6104, 63.209812}</string>
-						<string>{173.12137, 89.786987}</string>
+						<string>{230.75418, 63.210453}</string>
+						<string>{173.47383, 89.789108}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -7294,8 +7289,8 @@ Hold initialization script and VM parameters included networking stuffs}</string
 					<integer>3</integer>
 					<key>Points</key>
 					<array>
-						<string>{128.453, 63.467926}</string>
-						<string>{138.26793, 89.53746}</string>
+						<string>{128.58093, 63.466862}</string>
+						<string>{138.57608, 89.533913}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -7413,8 +7408,8 @@ Hold initialization script and VM parameters included networking stuffs}</string
 					<integer>3</integer>
 					<key>Points</key>
 					<array>
-						<string>{398.68872, 129.35881}</string>
-						<string>{404.63187, 117.33841}</string>
+						<string>{398.7955, 129.40898}</string>
+						<string>{405, 117}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -10653,7 +10648,7 @@ Guest Configuration Files\
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{459.37692, 92.466034}, {28, 12}}</string>
+					<string>{{459.37701, 92.466019}, {28, 12}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -11066,8 +11061,8 @@ Guest Configuration Files\
 					<integer>52</integer>
 					<key>Points</key>
 					<array>
-						<string>{459.76529, 200.19655}</string>
-						<string>{508.42383, 159.21808}</string>
+						<string>{459.76617, 200.19682}</string>
+						<string>{508.42676, 159.21928}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -11226,8 +11221,8 @@ Guest Configuration Files\
 					<integer>47</integer>
 					<key>Points</key>
 					<array>
-						<string>{451.41461, 79.641129}</string>
-						<string>{508.64383, 128.69489}</string>
+						<string>{451.41467, 79.641144}</string>
+						<string>{508.64395, 128.69484}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -13315,7 +13310,7 @@ Guest Configuration Files\
 					<key>Head</key>
 					<dict>
 						<key>ID</key>
-						<integer>9</integer>
+						<integer>8</integer>
 					</dict>
 					<key>ID</key>
 					<integer>16</integer>
@@ -13352,8 +13347,8 @@ Guest Configuration Files\
 					<integer>13</integer>
 					<key>Points</key>
 					<array>
-						<string>{135, 112.5}</string>
-						<string>{180, 112.5}</string>
+						<string>{270, 112.5}</string>
+						<string>{315, 112.5}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -13383,8 +13378,9 @@ Guest Configuration Files\
 					<integer>12</integer>
 					<key>Points</key>
 					<array>
-						<string>{90, 54}</string>
-						<string>{90, 99}</string>
+						<string>{81, 54}</string>
+						<string>{81, 112.15385}</string>
+						<string>{180, 112.5}</string>
 					</array>
 					<key>Style</key>
 					<dict>
@@ -13445,7 +13441,7 @@ Guest Configuration Files\
 					<integer>10</integer>
 					<key>Points</key>
 					<array>
-						<string>{135, 40.5}</string>
+						<string>{126, 40.5}</string>
 						<string>{180, 40.5}</string>
 					</array>
 					<key>Style</key>
@@ -13466,7 +13462,7 @@ Guest Configuration Files\
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{45, 99}, {90, 27}}</string>
+					<string>{{180, 99}, {90, 27}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -13564,7 +13560,7 @@ Guest Configuration Files\
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{180, 99}, {90, 27}}</string>
+					<string>{{315, 99}, {90, 27}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
@@ -13662,7 +13658,7 @@ Guest Configuration Files\
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{45, 27}, {90, 27}}</string>
+					<string>{{36, 27}, {90, 27}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>ID</key>
