@@ -57,11 +57,12 @@ public
     # TODO: Support node type hierarchy
     def allocate(vcid, config)
         @db[:node_types].insert(
-            :name   => config["NAME"].gsub(/^["|'](.*?)["|']$/,'\1'),
-            :body   => Marshal.dump(config),
-            :vcid   => vcid,
-            :tid    => config["TEMPLATE_ID"],
-            :number => config["NUMBER"]
+            :name     => config["NAME"].gsub(/^["|'](.*?)["|']$/,'\1'),
+            :body     => Marshal.dump(config),
+            :vcid     => vcid,
+            :tid      => config["TEMPLATE_ID"],
+            :number   => config["NUMBER"],
+            :nt_state => NT_STATE.index("PENDING")
         )
         
         # Set ntid and return
