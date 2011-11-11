@@ -32,6 +32,10 @@ cmd=CommandParser::CmdParser.new(ARGV) do
     # Global Options
     ########################################################################
     set :option, CommandParser::OPTIONS
+    
+    deploy_options = [
+        OneVCHelper::NODE_TYPE_ID,
+    ]
 
     ########################################################################
     # Formatters for arguments
@@ -64,6 +68,17 @@ cmd=CommandParser::CmdParser.new(ARGV) do
             # template = args[0]
             error = vc.allocate(args[0])
         end
+    end
+    
+    # TODO: Write deploy description
+    deploy_desc = <<-EOT.unindent
+    Deploy description
+    EOT
+    command :deploy, deploy_desc, :vcid, :options=>deploy_options do
+        exit_code = helper.perform_action(args[0], options, "deployed") do |vc|
+            vc.deploy
+        end
+        exit_code
     end
 
 end

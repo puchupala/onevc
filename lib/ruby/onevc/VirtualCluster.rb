@@ -2,14 +2,18 @@ require 'Configuration'
 require 'onedb_backend'
 require 'onevc_backend'
 require 'NodeType'
+# require 'OpenNebula/Template'
 
 class VirtualCluster
     
-protected
+    protected
 
-    def initialize()
+    # client and id order is swapped
+    def initialize(client, id=nil)
         read_onedconf
         @db = @backend.db
+        @client = client
+        @id = id
     end
     
     # Taken from onedb/onedb.rb
@@ -43,8 +47,8 @@ protected
         node = NodeType.new
         node.allocate(@id, config)
     end
-
-public
+    
+    public
 
     # TODO: Complete me
     def allocate(file)
@@ -65,9 +69,28 @@ public
         
         return @id
     end
+    
+    def deploy()
+        return Error.new('ID not defined') if !@id
+        
+        node_types = @db[:node_types].where(:vcid=>@id)
+        
+        node_types.each do |node_type|
+            # TODO: Finish this method
+            puts OpenNebula::Template::TEMPLATE_METHODS[:instantiate]
+            # rc = @client.call(Template::TEMPLATE_METHODS[:instantiate], node_type[:tid], "DUMMY")
+        end
+    end
 
     def id()
         @id
+    end
+    
+    # Adapted from PoolElement.info and derevetives
+    # Needed to make this class compatible with one_helper
+    def info()
+        @pe_id = @id if @id
+        return nil
     end
     
 end
