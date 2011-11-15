@@ -77,15 +77,10 @@ module OpenNebula
             
             node_types = @db[:node_types].filter(:vcid=>@id).all
             node_types.each do |node_type|
-                ntid = node_type[:oid]
-                node_type = NodeType.new(@client, ntid)
-                count = 0
-                node_type.number.times do
-                    res = node_type.instantiate("#{name()}-#{node_type.name}-#{count}")
-                    if OpenNebula.is_error?(res)
-                        return res
-                    end
-                    count += 1
+                node_type = NodeType.new(@client, node_type[:oid])
+                res = node_type.deploy("#{name()}-#{node_type.name}")
+                if OpenNebula.is_error?(res)
+                    return res
                 end
             end
         end

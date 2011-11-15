@@ -71,11 +71,17 @@ module OpenNebula
             @id = @db[:node_types].order(:oid.desc).first[:oid]
         end
     
-        def instantiate(name)
-            template = OpenNebula::Template.new_with_id(tid(), @client)
-            res = template.instantiate(name)
-            if OpenNebula.is_error?(res)
-                puts "Template #{tid()} instantiation return the following error"
+        def deploy(name)
+            count = 0
+            res = nil # To extend scope of res
+            number().times do
+                res = OpenNebula::Template.new_with_id(tid(), @client).instantiate("#{name}-#{count}")
+                if OpenNebula.is_error?(res)
+                    # NOTE: Do we really want to output this here?
+                    puts "Template #{tid()} instantiation return the following error"
+                    return res
+                end
+                count += 1
             end
             res
         end
