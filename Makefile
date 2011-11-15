@@ -1,7 +1,9 @@
 ifdef ONE_LOCATION
 PREFIX = $(ONE_LOCATION)
+ETC_PREFIX = $(ONE_LOCATION)/etc
 else
 PREFIX = /usr
+ETC_PREFIX = /etc
 endif
 
 install : 
@@ -14,6 +16,7 @@ install :
 	cp lib/ruby/onevc/onevc_backend.rb $(PREFIX)/lib/ruby/onevc/onevc_backend.rb
 	cp share/onevc/install_onevc $(PREFIX)/share/onevc/install_onevc
 	cp share/onevc/uninstall_onevc $(PREFIX)/share/onevc/uninstall_onevc
+	cp etc/cli/onevc.yaml $(ETC_PREFIX)/cli/onevc.yaml
 	chmod +x $(PREFIX)/bin/onevc
 	chmod +x $(PREFIX)/share/onevc/install_onevc
 	chmod +x $(PREFIX)/share/onevc/uninstall_onevc
@@ -28,5 +31,6 @@ uninstall :
 	rm -f $(PREFIX)/lib/ruby/onevc/onevc_backend.rb
 	rm -f $(PREFIX)/share/onevc/install_onevc
 	rm -f $(PREFIX)/share/onevc/uninstall_onevc
+	rm -f $(ETC_PREFIX)/cli/onevc.yaml
 	rm -rf $(PREFIX)/lib/ruby/onevc/
 	rm -rf $(PREFIX)/share/onevc/

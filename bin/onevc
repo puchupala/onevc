@@ -76,7 +76,7 @@ cmd=CommandParser::CmdParser.new(ARGV) do
     EOT
     command :deploy, deploy_desc, :vcid, :options=>deploy_options do
         exit_code = helper.perform_action(args[0], options, "deployed") do |vc|
-            vc.deploy
+            vc.deploy()
         end
         exit_code
     end
