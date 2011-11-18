@@ -48,6 +48,10 @@ module OpenNebula
             node = NodeType.new(@client)
             node.allocate(@id, config)
         end
+        
+        def validate_node_types
+            
+        end
     
         public
 

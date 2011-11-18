@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+ONE_LOCATION = ENV["ONE_LOCATION"]
+
+if !ONE_LOCATION
+    RUBY_LIB_LOCATION = "/usr/lib/one/ruby"
+    VAR_LOCATION      = "/var/lib/one"
+    ETC_LOCATION      = "/etc/one"
+    LOCK_FILE         = "/var/lock/one/one"
+else
+    RUBY_LIB_LOCATION = ONE_LOCATION + "/lib/ruby"
+    VAR_LOCATION      = ONE_LOCATION + "/var"
+    ETC_LOCATION      = ONE_LOCATION + "/etc"
+    LOCK_FILE         = VAR_LOCATION + "/.lock"
+end
+
+$: << RUBY_LIB_LOCATION
+$: << RUBY_LIB_LOCATION + "/cli"
+$: << RUBY_LIB_LOCATION + "/onedb"
+$: << RUBY_LIB_LOCATION + "/onevc"
+
+require 'rubygems' unless defined? Gem
+require 'daemons'
+
+Daemons.run(RUBY_LIB_LOCATION + "/onevc/onevcd.rb")
