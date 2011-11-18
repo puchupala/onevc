@@ -86,7 +86,7 @@ module OpenNebula
             
             node_types().each do |node_type|
                 node_type = NodeType.new(@client, node_type[:oid])
-                node_type.mark_deploy()
+                node_type.set_action("DEPLOY")
                 
                 # node_type = NodeType.new(@client, node_type[:oid])
                 # res = node_type.deploy("#{name()}-#{node_type.name}")

@@ -96,8 +96,9 @@ module OpenNebula
             res
         end
         
-        def mark_deploy()
-            @db[:node_types].filter(:oid=>@id).update(:action=>ACTION.index("DEPLOY"))
+        def set_action(action)
+            return Error.new("Unknow action specified") if ACTION.index(action) == nil
+            @db[:node_types].filter(:oid=>@id).update(:action=>ACTION.index(action))
         end
 
         def id
