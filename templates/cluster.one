@@ -1,14 +1,14 @@
 VC_NAME   = "Rocks Cluster"
 
 NODE_TYPE = [
-    NAME = "Frontend",
-    TEMPLATE_ID = 3,
-    NUMBER = 1
+    NAME = "Compute",
+    PARENT = "Frontend",
+    TEMPLATE_ID = 4,
+    NUMBER = 2
 ]
 
 NODE_TYPE = [
-    NAME = "Compute",
-    CHILD_OF = "Frontend",
-    TEMPLATE_ID = 4,
-    NUMBER = 2
+    NAME = "Frontend",
+    TEMPLATE_ID = 3,
+    NUMBER = 1
 ]

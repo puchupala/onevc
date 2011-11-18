@@ -4,6 +4,8 @@ require 'onevc_backend'
 
 module OpenNebula
     class NodeType
+        
+        ROOT_ID = -1
     
         #######################################################################
         # Constants and Class Methods
@@ -67,11 +69,21 @@ module OpenNebula
         # TODO: Validate tid
         # TODO: Support node type hierarchy
         def allocate(vcid, config)
+            parent_name = nil
+            if config["PARENT"] == nil
+                parent_id = ROOT_ID
+            else
+                parent = @db[:node_types].filter(:vcid=>vcid, :name=>NodeType.strip(config["PARENT"])).first
+                return Error.new("Can't find parent node type") if parent == nil
+                parent_id = parent[:oid]
+            end
+                
             @db[:node_types].insert(
-                :name     => config["NAME"].gsub(/^["|'](.*?)["|']$/,'\1'),
+                :name     => NodeType.strip(config["NAME"]),
                 :body     => Marshal.dump(config),
                 :vcid     => vcid,
                 :tid      => config["TEMPLATE_ID"],
+                :pid      => parent_id,
                 :number   => config["NUMBER"],
                 :nt_state => NT_STATE.index("PENDING"),
                 :action   => ACTION.index("NONE")
@@ -96,9 +108,18 @@ module OpenNebula
             res
         end
         
+        # TODO: Check parent deployed? or not
+        def deployable?()
+            true
+        end
+        
         def set_action(action)
             return Error.new("Unknow action specified") if ACTION.index(action) == nil
             @db[:node_types].filter(:oid=>@id).update(:action=>ACTION.index(action))
+        end
+        
+        def get_state()
+            return @db[:node_types].filter(:oid=>@id).first[:state].to_i
         end
 
         def id
@@ -127,6 +148,10 @@ module OpenNebula
             else
                 return @db[:node_types].filter(:oid=>@id).first[:tid].to_i
             end
+        end
+        
+        def self.strip(string)
+            return string.gsub(/^["|'](.*?)["|']$/,'\1')
         end
     
     end

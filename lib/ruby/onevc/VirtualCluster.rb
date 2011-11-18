@@ -2,9 +2,13 @@ require 'Configuration'
 require 'onedb_backend'
 require 'onevc_backend'
 require 'NodeType'
+require 'rgl/adjacency'
+require 'rgl/topsort' # For acyclic? method
 
 module OpenNebula
     class VirtualCluster
+        
+        ROOT_NODE_TYPE = "/"
     
         protected
 
@@ -72,9 +76,10 @@ module OpenNebula
             
             # Set @id to newly created vcid for the instance
             @id = @db[:vc_pool].order(:oid.desc).first[:oid]
-        
-            config[:NODE_TYPE].each do |node_type|
-                create_node(node_type)
+                    
+            VirtualCluster.sort_by_hierarchy(config[:NODE_TYPE]).each do |node_type|
+                res = create_node(node_type)
+                return res if OpenNebula.is_error?(res)
             end
         
             return @id
@@ -121,6 +126,37 @@ module OpenNebula
         def info()
             @pe_id = @id.to_i if @id
             return nil
+        end
+        
+        def self.sort_by_hierarchy(node_types)
+            tree = VirtualCluster.create_tree(node_types, RGL::DirectedAdjacencyGraph)
+            output = []
+            
+            iterator =  tree.bfs_iterator(ROOT_NODE_TYPE)
+            iterator.set_finish_vertex_event_handler do |node_type|
+                next if node_type == ROOT_NODE_TYPE
+                output += [node_type]
+            end
+            iterator.set_to_end
+            
+            output
+        end
+        
+        def self.create_tree(node_types, graph_type, root=ROOT_NODE_TYPE)
+            tree = graph_type.new
+            node_types.each do |node_type|
+                if node_type["PARENT"] == nil
+                    tree.add_edge(root, node_type)
+                else
+                    node_types.each do |nt|
+                        if nt["NAME"] == node_type["PARENT"]
+                            tree.add_edge(nt, node_type)
+                            break
+                        end
+                    end
+                end
+            end
+            tree
         end
     
     end
