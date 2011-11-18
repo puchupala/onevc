@@ -48,23 +48,29 @@ module OpenNebula
             node.allocate(@id, config)
         end
         
-        def validate_node_types
-            
+        def valid_hierarchy?(node_types)
+            require 'rgl/adjacency'
+            require 'rgl/topsort' # For acyclic?()
+            node_types.each do |node_type|
+                # TODO: Code me
+            end
+            true
         end
     
         public
 
-        # TODO: Complete me
         def allocate(file)
             config = Configuration.new(file)
-        
+            
+            return Error.new('Invalid hierarchy detected') unless valid_hierarchy?(config[:NODE_TYPE])
+                
             # Create new VC in the database
             @db[:vc_pool].insert(
                 :name => config[:VC_NAME].gsub(/^["|'](.*?)["|']$/,'\1'),
                 :body => File.read(file)
             )
-        
-            # Set vcid for the instance
+            
+            # Set @id to newly created vcid for the instance
             @id = @db[:vc_pool].order(:oid.desc).first[:oid]
         
             config[:NODE_TYPE].each do |node_type|
@@ -76,18 +82,20 @@ module OpenNebula
     
         # TODO: Resolve and use Node Type Hierachy
         def deploy()
-            return Error.new('ID not defined') if !@id
+            return Error.new('ID not defined') unless @id
             
-            node_types = @db[:node_types].filter(:vcid=>@id).all
-            node_types.each do |node_type|
+            node_types().each do |node_type|
                 node_type = NodeType.new(@client, node_type[:oid])
-                res = node_type.deploy("#{name()}-#{node_type.name}")
-                if OpenNebula.is_error?(res)
-                    return res
-                end
+                node_type.mark_deploy()
+                
+                # node_type = NodeType.new(@client, node_type[:oid])
+                # res = node_type.deploy("#{name()}-#{node_type.name}")
+                # if OpenNebula.is_error?(res)
+                #     return res
+                # end
             end
         end
-
+        
         def id()
             @id
         end
@@ -97,6 +105,14 @@ module OpenNebula
                 return @name
             else
                 return @db[:vc_pool].filter(:oid=>@id).first[:name]
+            end
+        end
+        
+        def node_types
+            if @node_types != nil
+                return @node_types
+            else
+                return @db[:node_types].filter(:vcid=>@id).all
             end
         end
     

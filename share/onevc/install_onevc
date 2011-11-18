@@ -38,10 +38,12 @@ if $0 == __FILE__
     ########################################################################
     
     # Schema
-    # CREATE TABLE node_types (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, vcid INTEGER, tid INTEGER, nt_state INTEGER);
+    # CREATE TABLE node_types (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, number INTEGER,
+    #     vcid INTEGER, tid INTEGER, nt_state INTEGER, action INTEGER);
     
     db.run("DROP TABLE IF EXISTS node_types;")
-    db.run("CREATE TABLE node_types (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, number INTEGER, vcid INTEGER, tid INTEGER, nt_state INTEGER);")
+    db.run("CREATE TABLE node_types (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, number INTEGER,
+        vcid INTEGER, tid INTEGER, nt_state INTEGER, action INTEGER);")
     
     ########################################################################
     # Nodes

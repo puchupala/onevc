@@ -18,9 +18,10 @@ module OpenNebula
             "DONE"      => "done"
         }
         
-        ACTION = %w{DEPLOY SUSPEND STOP}
+        ACTION = %w{NONE DEPLOY SUSPEND STOP}
         
         SHORT_ACTIONS = {
+            "NONE"    => "none",
             "DEPLOY"  => "depl",
             "SUSPEND" => "susp",
             "STOPP"   => "stop"
@@ -72,7 +73,8 @@ module OpenNebula
                 :vcid     => vcid,
                 :tid      => config["TEMPLATE_ID"],
                 :number   => config["NUMBER"],
-                :nt_state => NT_STATE.index("PENDING")
+                :nt_state => NT_STATE.index("PENDING"),
+                :action   => ACTION.index("NONE")
             )
         
             # Set ntid and return
@@ -92,6 +94,10 @@ module OpenNebula
                 count += 1
             end
             res
+        end
+        
+        def mark_deploy()
+            @db[:node_types].filter(:oid=>@id).update(:action=>ACTION.index("DEPLOY"))
         end
 
         def id
