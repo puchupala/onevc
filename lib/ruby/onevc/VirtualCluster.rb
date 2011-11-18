@@ -2,7 +2,6 @@ require 'Configuration'
 require 'onedb_backend'
 require 'onevc_backend'
 require 'NodeType'
-# require 'OpenNebula/Template'
 
 module OpenNebula
     class VirtualCluster

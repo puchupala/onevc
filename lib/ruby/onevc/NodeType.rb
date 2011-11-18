@@ -17,6 +17,14 @@ module OpenNebula
             "STOPPED"   => "stop",
             "DONE"      => "done"
         }
+        
+        ACTION = %w{DEPLOY SUSPEND STOP}
+        
+        SHORT_ACTIONS = {
+            "DEPLOY"  => "depl",
+            "SUSPEND" => "susp",
+            "STOPP"   => "stop"
+        }
     
     protected
         def initialize(client, id=nil)
