@@ -26,7 +26,7 @@ module OpenNebula
             "NONE"    => "none",
             "DEPLOY"  => "depl",
             "SUSPEND" => "susp",
-            "STOPP"   => "stop"
+            "STOP"   => "stop"
         }
     
     protected
@@ -63,11 +63,19 @@ module OpenNebula
 
             return 0
         end
+        
+        def create_node(vmid)
+            @db[:nodes].insert(
+                :vcid => vcid(),
+                :ntid  => @id,
+                :vmid => vmid
+            )
+        end
 
     public
 
         # TODO: Validate tid
-        # TODO: Support node type hierarchy
+        # TODO: Support template override
         def allocate(vcid, config)
             parent_name = nil
             if config["PARENT"] == nil
@@ -93,24 +101,57 @@ module OpenNebula
             @id = @db[:node_types].order(:oid.desc).first[:oid]
         end
     
+        # TODO: Implement (internal) deployment policy
         def deploy(name)
             count = 0
             res = nil # To extend scope of res
             number().times do
-                res = OpenNebula::Template.new_with_id(tid(), @client).instantiate("#{name}-#{count}")
-                if OpenNebula.is_error?(res)
+                vmid = OpenNebula::Template.new_with_id(tid(), @client).instantiate("#{name}-#{count}")
+                if OpenNebula.is_error?(vmid)
                     # NOTE: Do we really want to output this here?
                     puts "Template #{tid()} instantiation return the following error"
-                    return res
+                    return vmid
+                end
+                node = create_node(vmid)
+                if OpenNebula.is_error?(node)
+                    # NOTE: Do we really want to output this here?
+                    puts "Error while creating node for VM ID #{vmid}"
+                    return node
                 end
                 count += 1
             end
+            set_action("NONE")
             res
         end
         
-        # TODO: Check parent deployed? or not
         def deployable?()
+            return true if parent() == ROOT_ID
+            return true if parent().get_state() == NT_STATE.index("RUNNING")
+            false
+        end
+        
+        def running?()
+            # Check node type status
+            return true if get_state() == NT_STATE.index("RUNNING")
+
+            # Check number of deployed nodes
+            nodes = @db[:nodes].filter(:vcid=>vcid(), :ntid=>@id).all()
+            return false if nodes.count < number()
+
+            # Check status of deployed nodes
+            nodes.each do |node|
+                vm = OpenNebula::VirtualMachine.new_with_id(node[:vmid], @client)
+                vm.info # Update vm info
+                return false unless vm.lcm_state_str == "RUNNING"
+            end
+
+            # Passed!
             true
+        end
+        
+        def set_state(state)
+            return Error.new("Unknow state specified") if NT_STATE.index(state) == nil
+            @db[:node_types].filter(:oid=>@id).update(:nt_state=>NT_STATE.index(state))
         end
         
         def set_action(action)
@@ -119,7 +160,15 @@ module OpenNebula
         end
         
         def get_state()
-            return @db[:node_types].filter(:oid=>@id).first[:state].to_i
+            @db[:node_types].filter(:oid=>@id).first[:nt_state].to_i
+        end
+        
+        def get_action()
+            @db[:node_types].filter(:oid=>@id).first[:action].to_i
+        end
+        
+        def update()
+            set_state("RUNNING") if running?()
         end
 
         def id
@@ -130,7 +179,7 @@ module OpenNebula
             if @name != nil
                 return @name
             else
-                return @db[:node_types].filter(:oid=>@id).first[:name]
+                return @name = @db[:node_types].filter(:oid=>@id).first[:name]
             end
         end
     
@@ -138,7 +187,7 @@ module OpenNebula
             if @number != nil
                 return @number
             else
-                return @db[:node_types].filter(:oid=>@id).first[:number].to_i
+                return @number = @db[:node_types].filter(:oid=>@id).first[:number].to_i
             end
         end
     
@@ -146,10 +195,31 @@ module OpenNebula
             if @tid != nil
                 return @tid
             else
-                return @db[:node_types].filter(:oid=>@id).first[:tid].to_i
+                return @tid = @db[:node_types].filter(:oid=>@id).first[:tid].to_i
             end
         end
         
+        def vcid
+            if @vcid != nil
+                return @vcid
+            else
+                return @vcid = @db[:node_types].filter(:oid=>@id).first[:vcid].to_i
+            end
+        end
+        
+        def parent()
+            if @parent != nil
+                return @parent
+            else
+                parent_id = @db[:node_types].filter(:oid=>@id).first[:pid].to_i
+                if parent_id == ROOT_ID
+                    return ROOT_ID
+                else
+                    return @parent = NodeType.new(@client, parent_id)                    
+                end
+            end
+        end
+                
         def self.strip(string)
             return string.gsub(/^["|'](.*?)["|']$/,'\1')
         end

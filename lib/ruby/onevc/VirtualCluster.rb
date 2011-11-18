@@ -9,6 +9,8 @@ module OpenNebula
     class VirtualCluster
         
         ROOT_NODE_TYPE = "/"
+        VC_STATE = NodeType::NT_STATE + ["SHIFTING"]
+        SHORT_VC_STATES = NodeType::SHORT_NT_STATES.merge({"SHIFTING" => "shft"})
     
         protected
 
@@ -47,17 +49,14 @@ module OpenNebula
             return 0
         end
     
-        def create_node(config)
+        def create_node_type(config)
             node = NodeType.new(@client)
             node.allocate(@id, config)
         end
         
         def valid_hierarchy?(node_types)
-            require 'rgl/adjacency'
-            require 'rgl/topsort' # For acyclic?()
-            node_types.each do |node_type|
-                # TODO: Code me
-            end
+            tree = VirtualCluster.create_tree(node_types, RGL::DirectedAdjacencyGraph)
+            # TODO: Validate hierarchy
             true
         end
     
@@ -70,15 +69,16 @@ module OpenNebula
                 
             # Create new VC in the database
             @db[:vc_pool].insert(
-                :name => config[:VC_NAME].gsub(/^["|'](.*?)["|']$/,'\1'),
-                :body => File.read(file)
+                :name     => config[:VC_NAME].gsub(/^["|'](.*?)["|']$/,'\1'),
+                :body     => File.read(file),
+                :vc_state => VC_STATE.index("SHIFTING")
             )
             
             # Set @id to newly created vcid for the instance
             @id = @db[:vc_pool].order(:oid.desc).first[:oid]
                     
             VirtualCluster.sort_by_hierarchy(config[:NODE_TYPE]).each do |node_type|
-                res = create_node(node_type)
+                res = create_node_type(node_type)
                 return res if OpenNebula.is_error?(res)
             end
         
@@ -90,15 +90,36 @@ module OpenNebula
             return Error.new('ID not defined') unless @id
             
             node_types().each do |node_type|
-                node_type = NodeType.new(@client, node_type[:oid])
                 node_type.set_action("DEPLOY")
-                
-                # node_type = NodeType.new(@client, node_type[:oid])
-                # res = node_type.deploy("#{name()}-#{node_type.name}")
-                # if OpenNebula.is_error?(res)
-                #     return res
-                # end
             end
+        end
+        
+        def running?
+            node_types().each do |node_type|
+                return false unless node_type.get_state() == NodeType::NT_STATE.index(["RUNNING"])
+            end
+            true
+        end
+        
+        def set_state(state)
+            return Error.new("Unknow action specified") if VC_STATE.index(state) == nil
+            @db[:vc_pool].filter(:oid=>@id).update(:vc_state=>VC_STATE.index(state))
+        end
+        
+        def get_state()
+            @db[:vc_pool].filter(:oid=>@id).first[:vc_state].to_i
+        end
+        
+        def compute_state()
+            state = node_types[0].get_state()
+            node_types.each do |node_type|
+                return VC_STATE.index("SHIFTING") unless state == node_type.get_state()
+            end
+            state
+        end
+                
+        def update()
+            set_state(VC_STATE[compute_state()])
         end
         
         def id()
@@ -117,7 +138,7 @@ module OpenNebula
             if @node_types != nil
                 return @node_types
             else
-                return @db[:node_types].filter(:vcid=>@id).all
+                @node_types = @db[:node_types].filter(:vcid=>@id).all.map { |node_type| NodeType.new(@client, node_type[:oid]) }
             end
         end
     

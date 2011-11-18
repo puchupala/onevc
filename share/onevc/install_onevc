@@ -28,10 +28,10 @@ if $0 == __FILE__
     ########################################################################
     
     # Schema
-    # CREATE TABLE vc_pool (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, uid INTEGER, gid INTEGER);
+    # CREATE TABLE vc_pool (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, vc_state INTEGER, uid INTEGER, gid INTEGER);
     
     db.run("DROP TABLE IF EXISTS vc_pool;")
-    db.run("CREATE TABLE vc_pool (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, uid INTEGER, gid INTEGER);")
+    db.run("CREATE TABLE vc_pool (oid INTEGER PRIMARY KEY, name TEXT, body TEXT, vc_state INTEGER, uid INTEGER, gid INTEGER);")
     
     ########################################################################
     # Node Types
