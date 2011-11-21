@@ -33,25 +33,27 @@ M.~Armbrust, A.~Fox, R.~Griffith, A.~D. Joseph, R.~H. Katz, A.~Konwinski,
 
 \bibitem{ranabahu2009best}
 A.~Ranabahu and E.~Maximilien, ``A best practice model for cloud middleware
-  systems,'' \emph{Towards bes}, p.~41, 2009.
+  systems,'' \emph{Towards bes}, pp. 41 -- 51, 2009.
 
 \bibitem{1630864}
 I.~Foster, T.~Freeman, K.~Keahy, D.~Scheftner, B.~Sotomayer, and X.~Zhang,
-  ``Virtual clusters for grid communities,'' in \emph{Cluster Computing and the
-  Grid, 2006. CCGRID 06. Sixth IEEE International Symposium on}, vol.~1, {may}
-  2006, pp. 513 -- 520.
+  ``Virtual clusters for grid communities,'' vol.~1, pp. 513 -- 520, 2006.
 
 \bibitem{10.1109/MIC.2009.119}
 B.~Sotomayor, R.~S. Montero, I.~M. Llorente, and I.~Foster, ``Virtual
   infrastructure management in private and hybrid clouds,'' \emph{IEEE Internet
-  Computing}, vol.~13, no.~5, pp. 14--22, 2009.
+  Computing}, vol.~13, no.~5, pp. 14 -- 22, 2009.
 
 \bibitem{nurmi2009eucalyptus}
 D.~Nurmi, R.~Wolski, C.~Grzegorczyk, G.~Obertelli, S.~Soman, L.~Youseff, and
-  D.~Zagorodnov, ``The eucalyptus open-source cloud-computing system,'' in
-  \emph{Proceedings of the 2009 9th IEEE/ACM International Symposium on Cluster
-  Computing and the Grid}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE Computer
-  Society, 2009, pp. 124--131.
+  D.~Zagorodnov, ``The eucalyptus open-source cloud-computing system,'' pp. 124
+  -- 131, 2009.
+
+\bibitem{introapis}
+\BIBentryALTinterwordspacing
+``Scalable architecture and apis 3.0,'' 11 2011. [Online]. Available:
+  \url{http://opennebula.org/documentation:rel3.0:introapis}
+\BIBentrySTDinterwordspacing
 
 \bibitem{oneservice}
 \BIBentryALTinterwordspacing
