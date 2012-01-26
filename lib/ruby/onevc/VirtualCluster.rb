@@ -142,7 +142,7 @@ module OpenNebula
             
             begin
                 @db[:vc_pool].filter(:oid=>@id).update(:vc_state=>VC_STATE.index(state))
-            rescue SQLite3::CantOpenException
+            rescue Sequel::DatabaseError
                 sleep(RETRY_DELAY)
                 retry
             end

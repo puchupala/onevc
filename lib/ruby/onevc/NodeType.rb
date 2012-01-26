@@ -309,7 +309,7 @@ module OpenNebula
             return Error.new("Unknow state specified") if NT_STATE.index(state) == nil
             begin
                 @db[:node_types].filter(:oid=>@id).update(:nt_state=>NT_STATE.index(state))
-            rescue SQLite3::CantOpenException
+            rescue Sequel::DatabaseError
                 sleep(RETRY_DELAY)
                 retry
             end

@@ -26,22 +26,22 @@ class OneVCHelper < OpenNebulaHelper::OneHelper
     def list_pool(options, top=false, filter_flag=nil)
         filter_flag ||= OpenNebula::Pool::INFO_GROUP # Unused
         
-        pool = factory_pool(filter_flag)
         table = format_pool(options)
         
         if top
             begin
                 table.top(options) do
-                    pool = factory_pool(filter_flag) # Not sure if this help CantOpenException problem
-                    pool.info
-                    pool.to_array
+                        pool = factory_pool(filter_flag) # Not sure if this help CantOpenException problem
+                        pool.info
+                        pool.to_array
                 end
-            rescue SQLite3::CantOpenException
+            rescue Sequel::DatabaseError
                 sleep(RETRY_DELAY)
+                puts "RETRYING"
                 retry
             end
         else
-            table.show(pool.to_array())
+            table.show(factory_pool(filter_flag).to_array())
         end
         
         return 0

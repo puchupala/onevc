@@ -8,7 +8,7 @@ loop do
         backend = OneVCDBackend.new
         backend.execute
         backend = nil
-    rescue SQLite3::CantOpenException
+    rescue Sequel::DatabaseError
         sleep(RETRY_DELAY)
         retry
     end
