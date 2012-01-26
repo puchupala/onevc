@@ -20,13 +20,14 @@ module OpenNebula
             "DONE"      => "done"
         }
         
-        ACTION = %w{NONE DEPLOY SUSPEND STOP}
+        ACTION = %w{NONE DEPLOY SUSPEND STOP DELETE}
         
         SHORT_ACTIONS = {
             "NONE"    => "none",
             "DEPLOY"  => "depl",
             "SUSPEND" => "susp",
-            "STOP"   => "stop"
+            "STOP"   => "stop",
+            "DELETE"   => "delete"
         }
     
     protected
@@ -102,6 +103,7 @@ module OpenNebula
         end
     
         # TODO: Implement (internal) deployment policy
+        # TODO: Fill information in node table
         def deploy(name)
             count = 0
             res = nil # To extend scope of res
@@ -161,6 +163,10 @@ module OpenNebula
         
         def get_state()
             @db[:node_types].filter(:oid=>@id).first[:nt_state].to_i
+        end
+        
+        def get_state_name()
+            NT_STATE[get_state]
         end
         
         def get_action()

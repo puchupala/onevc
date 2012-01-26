@@ -35,6 +35,12 @@ class OneVCDBackend
     def stop_handle(vc, node_type)
         # TODO: Code me
     end
+    
+    def delete_handle(vc, node_type)
+        puts "VC: #{vc.id}"
+        puts "NODE_TYPE: #{node_type.id}"
+        # TODO: Code me
+    end
         
     public
     
@@ -52,6 +58,8 @@ class OneVCDBackend
                 suspend_handle(vc, node_type)
             elsif action == NodeType::ACTION.index("STOP")
                 stop_handle(vc, node_type)
+            elsif action == NodeType::ACTION.index("DELETE")
+                delete_handle(vc, node_type)
             end
         end
         @vcs.each do |vc|

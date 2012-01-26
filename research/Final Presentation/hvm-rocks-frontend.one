@@ -1,0 +1,75 @@
+NAME = HVM-Rocks-Frontend
+CPU = 0.4
+MEMORY = 1024
+
+OS = [
+	KERNEL = "/usr/lib/xen/boot/hvmloader",
+	BOOT = "cdrom"
+]
+
+FEATURES = [ acpi = "yes" ]
+
+RAW = [
+	TYPE = "xen",
+	DATA = "#
+builder=\"hvm\"
+device_model=\"/usr/lib64/xen/bin/qemu-dm\"
+vnc = \"1\"
+vncunused = \"1\"
+pae = 1
+acpi = 1
+apic = 1
+boot = \"cd\""
+]
+
+#GRAPHICS = [
+#	TYPE = "vnc",
+#	LISTEN = "0.0.0.0"
+#	#PORT = "5930"
+#]
+
+#REQUIREMENTS = "MODELNAME=\"*Xeon*\""
+REQUIREMENTS = "NAME=\"kyubei\""
+#REQUIREMENTS = "NAME=\"vm-container-0-0\""
+
+DISK = [
+	IMAGE_ID = "3", # Rocks CD x86_64
+	target = "hdd:cdrom",
+	readonly = "yes",
+	driver = "file:"
+]
+
+DISK = [
+	TYPE = "fs",
+	SIZE = "30720", # 30 GB
+	FORMAT = "ext3",
+	SAVE = "yes",
+	READONLY = "no",
+	TARGET = "hda"
+]
+
+#DISK = [
+#	#IMAGE = "frontend-0-0-0",
+#	IMAGE = "centos",
+#	target = "hda",
+#	readonly = "no"
+#]
+
+NIC = [
+	NETWORK_ID = "0", # PrivateNet
+	MAC = "B2:86:01:80:00:00",
+	IP = "10.1.1.1"
+]
+NIC = [
+	NETWORK_ID = "1", # Public
+	MAC = "B2:86:01:80:00:01",
+	IP = "133.1.134.200"
+]
+
+#CONTEXT = [
+#	hostname = "$NAME",
+#	ip_public = "$NIC[IP, NETWORK=\"Public\"]",
+#	ip_private = "$NIC[IP, NETWORK=\"Internal\"]",
+#	files = "/home/oneadmin/centos-5/context/frontend/init.sh",
+#	target = "hdc"
+#]

@@ -88,9 +88,17 @@ module OpenNebula
         # TODO: Resolve and use Node Type Hierachy
         def deploy()
             return Error.new('ID not defined') unless @id
-            
+                        
             node_types().each do |node_type|
                 node_type.set_action("DEPLOY")
+            end
+        end
+        
+        def delete()
+            return Error.new('ID not defined') unless @id
+            
+            node_types().each do |node_type|
+                node_type.set_action("DELETE")
             end
         end
         
@@ -107,7 +115,12 @@ module OpenNebula
         end
         
         def get_state()
+            update()
             @db[:vc_pool].filter(:oid=>@id).first[:vc_state].to_i
+        end
+        
+        def get_state_name()
+            VC_STATE[get_state]
         end
         
         def compute_state()

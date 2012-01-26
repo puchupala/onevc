@@ -4,7 +4,7 @@ NODE_TYPE = [
     NAME = "Compute",
     PARENT = "Frontend",
     TEMPLATE_ID = 4,
-    NUMBER = 2
+    NUMBER = 4
 ]
 
 NODE_TYPE = [

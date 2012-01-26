@@ -1,0 +1,37 @@
+---
+:TYPE:
+    :desc: Type of the Virtual Cluster element
+    :size: 2
+:ID:
+    :desc: ONE identifier for Virtual Cluster
+    :size: 6
+
+:NAME:
+    :desc: Name of the Virtual Cluster
+    :size: 12
+    
+:USER:
+    :desc: Username of the Virtual Cluster owner
+    :size 8
+    :left: true
+    
+:GROUP:
+    :desc: Group of the Virtual Cluster
+    :size: 8
+    :left: true
+    
+:STAT:
+    :desc: Actual status
+    :size: 4
+
+:TIME:
+    :desc: Time since the VC was submitted
+    :size: 11
+    
+:default:
+- :ID
+- :USER
+- :GROUP
+- :NAME
+- :STAT
+- :TIME

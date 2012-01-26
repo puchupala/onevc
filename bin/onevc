@@ -36,6 +36,10 @@ cmd=CommandParser::CmdParser.new(ARGV) do
     deploy_options = [
         OneVCHelper::NODE_TYPE_ID,
     ]
+    
+    delete_options = [
+        OneVCHelper::NODE_TYPE_ID,
+    ]
 
     ########################################################################
     # Formatters for arguments
@@ -61,7 +65,7 @@ cmd=CommandParser::CmdParser.new(ARGV) do
     ########################################################################
 
     create_desc = <<-EOT.unindent
-    Creates a new VC from the given template file.
+        Creates a new VC from the given template file.
     EOT
     command :create, create_desc, :file do
         helper.create_resource(options) do |vc|
@@ -72,7 +76,7 @@ cmd=CommandParser::CmdParser.new(ARGV) do
     
     # TODO: Write deploy description
     deploy_desc = <<-EOT.unindent
-    Deploy description
+        Deploy description
     EOT
     command :deploy, deploy_desc, :vcid, :options=>deploy_options do
         exit_code = helper.perform_action(args[0], options, "deployed") do |vc|
@@ -80,5 +84,35 @@ cmd=CommandParser::CmdParser.new(ARGV) do
         end
         exit_code
     end
+    
+    delete_desc = <<-EOT.unindent
+        Deletes the given VC
+
+        States: ANY
+    EOT
+    command :delete, delete_desc, :vcid, :options=>delete_options do
+        exit_code = helper.perform_action(args[0], options, "deleted") do |vc|
+            vc.delete()
+        end
+        exit_code
+    end
+        
+    list_desc = <<-EOT.unindent
+        Lists VCs in the pool
+    EOT
+    command :list, list_desc, [:filterflag, nil],
+            :options=>CLIHelper::OPTIONS+OpenNebulaHelper::OPTIONS do
+        helper.list_pool(options, false, args[0])
+    end
+    
+    top_desc = <<-EOT.unindent
+        Lists VCs in the pool continuously
+    EOT
+    command :top, top_desc, [:filterflag, nil],
+            :options=>CLIHelper::OPTIONS+OpenNebulaHelper::OPTIONS do
+        helper.list_pool(options, true, args[0])
+    end
+    
+    # TODO: Write SUSPEND, STOP commands
 
 end
