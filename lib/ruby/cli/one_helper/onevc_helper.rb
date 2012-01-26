@@ -3,6 +3,8 @@ require 'VirtualCluster'
 require 'VirtualClusterPool'
 
 class OneVCHelper < OpenNebulaHelper::OneHelper
+    RETRY_DELAY = 1 # In seconds
+    
     NODE_TYPE_ID = {
         :name        => "node_type_id",
         :short       => "-n node_type_id",
@@ -24,17 +26,21 @@ class OneVCHelper < OpenNebulaHelper::OneHelper
     def list_pool(options, top=false, filter_flag=nil)
         filter_flag ||= OpenNebula::Pool::INFO_GROUP # Unused
         
-        # pool = factory_pool(filter_flag)
+        pool = factory_pool(filter_flag)
         table = format_pool(options)
         
         if top
-            table.top(options) do
-                pool = factory_pool(filter_flag) # Moved to here to force delete pool to save DB connection
-                pool.info
-                pool.to_array
+            begin
+                table.top(options) do
+                    pool = factory_pool(filter_flag) # Not sure if this help CantOpenException problem
+                    pool.info
+                    pool.to_array
+                end
+            rescue SQLite3::CantOpenException
+                sleep(RETRY_DELAY)
+                retry
             end
         else
-            pool = factory_pool(filter_flag) # Moved to here to force delete pool to save DB connection
             table.show(pool.to_array())
         end
         

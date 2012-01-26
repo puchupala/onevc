@@ -11,6 +11,7 @@ module OpenNebula
         ROOT_NODE_TYPE = "/"
         VC_STATE = NodeType::NT_STATE + ["SHIFTING"]
         SHORT_VC_STATES = NodeType::SHORT_NT_STATES.merge({"SHIFTING" => "shft"})
+        RETRY_DELAY = 1 # In seconds
     
         protected
 
@@ -138,7 +139,13 @@ module OpenNebula
         
         def set_state(state)
             return Error.new("Unknow action specified") if VC_STATE.index(state) == nil
-            @db[:vc_pool].filter(:oid=>@id).update(:vc_state=>VC_STATE.index(state))
+            
+            begin
+                @db[:vc_pool].filter(:oid=>@id).update(:vc_state=>VC_STATE.index(state))
+            rescue SQLite3::CantOpenException
+                sleep(RETRY_DELAY)
+                retry
+            end
         end
         
         def get_state()
@@ -147,7 +154,7 @@ module OpenNebula
         end
         
         def get_state_name()
-            VC_STATE[get_state]
+            VC_STATE[get_state()]
         end
         
         def compute_state()

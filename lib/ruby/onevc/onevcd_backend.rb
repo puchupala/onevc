@@ -47,7 +47,12 @@ class OneVCDBackend
     end
     
     def resume_handle(vc, node_type)
-        # TODO: Code me
+        if node_type.resumable?
+            res = node_type.resume()
+            if OpenNebula.is_error?(res)
+                # TODO: Handle error
+            end
+        end
     end
     
     def delete_handle(vc, node_type)

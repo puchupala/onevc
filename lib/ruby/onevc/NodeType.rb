@@ -30,6 +30,8 @@ module OpenNebula
             "RESUME"   => "resu",
             "DELETE"   => "dele"
         }
+        
+        RETRY_DELAY = 1 # In seconds
     
     protected
         def initialize(client, id=nil)
@@ -148,7 +150,7 @@ module OpenNebula
                     return res
                 end
             end
-            set_state("STOPPED")
+            # set_state("STOPPED")
             set_action("NONE")
             res
         end
@@ -161,13 +163,29 @@ module OpenNebula
                     return res
                 end
             end
-            set_state("SUSPENDED")
+            # set_state("SUSPENDED")
+            set_action("NONE")
+            res
+        end
+        
+        def resume
+            res = nil # To extend scope of res
+            nodes().each do |node|
+                res = node.resume
+                if OpenNebula.is_error?(res)
+                    return res
+                end
+            end
+            # set_state("RUNNING")
             set_action("NONE")
             res
         end
         
         def deployable?()
+            update()
+            return false unless get_state() == NT_STATE.index("PENDING")
             return true if parent() == ROOT_ID
+            parent().update()
             return true if parent().get_state() == NT_STATE.index("RUNNING")
             false
         end
@@ -178,7 +196,7 @@ module OpenNebula
             
             # If there are children, check if they are all DONE or not
             children().each do |child|
-                return false if child[:nt_state] != NT_STATE.index("DONE")
+                return false unless child[:nt_state] == NT_STATE.index("DONE")
             end
             
             # Passed!
@@ -191,9 +209,9 @@ module OpenNebula
             
             # If there are children, check if they are all DONE or STOPPED or not
             children().each do |child|
-                return false if (
-                    (child[:nt_state] != NT_STATE.index("DONE")) &&
-                    (child[:nt_state] != NT_STATE.index("STOPPED"))
+                return false unless (
+                    (child[:nt_state] == NT_STATE.index("DONE")) ||
+                    (child[:nt_state] == NT_STATE.index("STOPPED"))
                 )
             end
             
@@ -207,15 +225,27 @@ module OpenNebula
             
             # If there are children, check if they are all DONE or SUSPENDED or STOPPED or not
             children().each do |child|
-                return false if (
-                    (child[:nt_state] != NT_STATE.index("DONE")) &&
-                    (child[:nt_state] != NT_STATE.index("STOPPED")) &&
-                    (child[:nt_state] != NT_STATE.index("SUSPENDED"))
+                return false unless (
+                    (child[:nt_state] == NT_STATE.index("DONE")) ||
+                    (child[:nt_state] == NT_STATE.index("STOPPED")) ||
+                    (child[:nt_state] == NT_STATE.index("SUSPENDED"))
                 )
             end
             
             # Passed!
             true
+        end
+        
+        def resumable?
+            update()
+            return false unless (
+                (get_state() == NT_STATE.index("STOPPED")) ||
+                (get_state() == NT_STATE.index("SUSPENDED"))
+            )
+            return true if parent() == ROOT_ID
+            parent().update()
+            return true if parent().get_state() == NT_STATE.index("RUNNING")
+            false
         end
         
         def running?()
@@ -237,9 +267,52 @@ module OpenNebula
             true
         end
         
+        def stopped?()
+            # Check node type status
+            return true if get_state() == NT_STATE.index("STOPPED")
+            
+            # Check number of deployed nodes
+            nodes = @db[:nodes].filter(:vcid=>vcid(), :ntid=>@id).all()
+            return false if nodes.count < number()
+            
+            # Check status of deployed nodes
+            nodes.each do |node|
+                vm = OpenNebula::VirtualMachine.new_with_id(node[:vmid], @client)
+                vm.info # Update vm info
+                return false unless vm.state_str == "STOPPED"
+            end
+
+            # Passed!
+            true
+        end
+        
+        def suspended?()
+            # Check node type status
+            return true if get_state() == NT_STATE.index("SUSPENDED")
+            
+            # Check number of deployed nodes
+            nodes = @db[:nodes].filter(:vcid=>vcid(), :ntid=>@id).all()
+            return false if nodes.count < number()
+            
+            # Check status of deployed nodes
+            nodes.each do |node|
+                vm = OpenNebula::VirtualMachine.new_with_id(node[:vmid], @client)
+                vm.info # Update vm info
+                return false unless vm.state_str == "SUSPENDED"
+            end
+
+            # Passed!
+            true
+        end
+        
         def set_state(state)
             return Error.new("Unknow state specified") if NT_STATE.index(state) == nil
-            @db[:node_types].filter(:oid=>@id).update(:nt_state=>NT_STATE.index(state))
+            begin
+                @db[:node_types].filter(:oid=>@id).update(:nt_state=>NT_STATE.index(state))
+            rescue SQLite3::CantOpenException
+                sleep(RETRY_DELAY)
+                retry
+            end
         end
         
         def set_action(action)
@@ -252,7 +325,7 @@ module OpenNebula
         end
         
         def get_state_name()
-            NT_STATE[get_state]
+            NT_STATE[get_state()]
         end
         
         def get_action()
@@ -261,6 +334,8 @@ module OpenNebula
         
         def update()
             set_state("RUNNING") if running?()
+            set_state("STOPPED") if stopped?()
+            set_state("SUSPENDED") if suspended?()
         end
 
         def id

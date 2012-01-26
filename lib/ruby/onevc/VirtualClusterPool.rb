@@ -17,6 +17,7 @@ module OpenNebula
             results = []
             @vcs.each do |vc|
                 vc = VirtualCluster.new(@client, vc[:oid])
+                vc.update()
                 next if vc.get_state() == VirtualCluster::VC_STATE.index("DONE")
                 results.push({
                     "TYPE"  => "VC",
@@ -25,6 +26,7 @@ module OpenNebula
                     "STAT" => vc.get_state_name.downcase
                 })
                 vc.node_types.each do |node_type|
+                    node_type.update()
                     results.push({
                         "TYPE"  => "NT",
                         "ID"    => node_type.id,
