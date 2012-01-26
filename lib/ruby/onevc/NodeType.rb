@@ -20,14 +20,15 @@ module OpenNebula
             "DONE"      => "done"
         }
         
-        ACTION = %w{NONE DEPLOY SUSPEND STOP DELETE}
+        ACTION = %w{NONE DEPLOY SUSPEND STOP RESUME DELETE}
         
         SHORT_ACTIONS = {
             "NONE"    => "none",
             "DEPLOY"  => "depl",
             "SUSPEND" => "susp",
             "STOP"   => "stop",
-            "DELETE"   => "delete"
+            "RESUME"   => "resu",
+            "DELETE"   => "dele"
         }
     
     protected
@@ -135,6 +136,33 @@ module OpenNebula
                 end
             end
             set_state("DONE")
+            set_action("NONE")
+            res
+        end
+        
+        def stop
+            res = nil # To extend scope of res
+            nodes().each do |node|
+                res = node.stop
+                if OpenNebula.is_error?(res)
+                    return res
+                end
+            end
+            set_state("STOPPED")
+            set_action("NONE")
+            res
+        end
+        
+        def suspend
+            res = nil # To extend scope of res
+            nodes().each do |node|
+                res = node.suspend
+                if OpenNebula.is_error?(res)
+                    return res
+                end
+            end
+            set_state("SUSPENDED")
+            set_action("NONE")
             res
         end
         
@@ -145,16 +173,45 @@ module OpenNebula
         end
         
         def deletable?()
-            children = @db[:node_types].filter(:pid=>@id).all()
-            
             # Check if there are children or not
-            return true if children == []
+            return true if children() == []
             
             # If there are children, check if they are all DONE or not
-            children.each do |child|
-                if child[:nt_state] != NT_STATE.index("DONE")
-                    return false
-                end
+            children().each do |child|
+                return false if child[:nt_state] != NT_STATE.index("DONE")
+            end
+            
+            # Passed!
+            true
+        end
+        
+        def stoppable?
+            # Check if there are children or not
+            return true if children() == []
+            
+            # If there are children, check if they are all DONE or STOPPED or not
+            children().each do |child|
+                return false if (
+                    (child[:nt_state] != NT_STATE.index("DONE")) &&
+                    (child[:nt_state] != NT_STATE.index("STOPPED"))
+                )
+            end
+            
+            # Passed!
+            true
+        end
+        
+        def suspendable?
+            # Check if there are children or not
+            return true if children() == []
+            
+            # If there are children, check if they are all DONE or SUSPENDED or STOPPED or not
+            children().each do |child|
+                return false if (
+                    (child[:nt_state] != NT_STATE.index("DONE")) &&
+                    (child[:nt_state] != NT_STATE.index("STOPPED")) &&
+                    (child[:nt_state] != NT_STATE.index("SUSPENDED"))
+                )
             end
             
             # Passed!
@@ -260,6 +317,14 @@ module OpenNebula
                 return @nodes
             else
                 @nodes = @db[:nodes].filter(:vcid=>vcid(), :ntid=>@id).all.map { |node| OpenNebula::VirtualMachine.new_with_id(node[:vmid], @client) }
+            end
+        end
+        
+        def children
+            if @children != nil
+                return @children
+            else
+                @children = @db[:node_types].filter(:pid=>@id).all()
             end
         end
                 

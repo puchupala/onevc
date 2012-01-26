@@ -102,6 +102,33 @@ module OpenNebula
             end
         end
         
+        def stop()
+            return Error.new('ID not defined') unless @id
+            return nil unless get_state() == VC_STATE.index("RUNNING")
+            
+            node_types().each do |node_type|
+                node_type.set_action("STOP")
+            end
+        end
+        
+        def suspend()
+            return Error.new('ID not defined') unless @id
+            return nil unless get_state() == VC_STATE.index("RUNNING")
+            
+            node_types().each do |node_type|
+                node_type.set_action("SUSPEND")
+            end
+        end
+        
+        def resume()
+            return Error.new('ID not defined') unless @id
+            return nil unless (get_state() == VC_STATE.index("STOPPED")) || (get_state() == VC_STATE.index("SUSPENDED"))
+            
+            node_types().each do |node_type|
+                node_type.set_action("RESUME")
+            end
+        end
+        
         def running?
             node_types().each do |node_type|
                 return false unless node_type.get_state() == NodeType::NT_STATE.index(["RUNNING"])

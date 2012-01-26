@@ -29,10 +29,24 @@ class OneVCDBackend
     end
 
     def suspend_handle(vc, node_type)
-        # TODO: Code me
+        if node_type.suspendable?
+            res = node_type.suspend()
+            if OpenNebula.is_error?(res)
+                # TODO: Handle error
+            end
+        end
     end
 
     def stop_handle(vc, node_type)
+        if node_type.stoppable?
+            res = node_type.stop()
+            if OpenNebula.is_error?(res)
+                # TODO: Handle error
+            end
+        end
+    end
+    
+    def resume_handle(vc, node_type)
         # TODO: Code me
     end
     
@@ -64,6 +78,8 @@ class OneVCDBackend
                 suspend_handle(vc, node_type)
             elsif action == NodeType::ACTION.index("STOP")
                 stop_handle(vc, node_type)
+            elsif action == NodeType::ACTION.index("RESUME")
+                resume_handle(vc, node_type)
             elsif action == NodeType::ACTION.index("DELETE")
                 delete_handle(vc, node_type)
             end
