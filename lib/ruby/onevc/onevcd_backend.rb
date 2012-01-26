@@ -37,9 +37,15 @@ class OneVCDBackend
     end
     
     def delete_handle(vc, node_type)
-        puts "VC: #{vc.id}"
-        puts "NODE_TYPE: #{node_type.id}"
+        if node_type.deletable?
+            res = node_type.delete()
+            if OpenNebula.is_error?(res)
+                # TODO: Handle error
+            end
+        # puts "VC: #{vc.id}"
+        # puts "NODE_TYPE: #{node_type.id}"
         # TODO: Code me
+        end
     end
         
     public

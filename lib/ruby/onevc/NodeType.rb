@@ -126,10 +126,39 @@ module OpenNebula
             res
         end
         
+        def delete
+            res = nil # To extend scope of res
+            nodes().each do |node|
+                res = node.finalize
+                if OpenNebula.is_error?(res)
+                    return res
+                end
+            end
+            set_state("DONE")
+            res
+        end
+        
         def deployable?()
             return true if parent() == ROOT_ID
             return true if parent().get_state() == NT_STATE.index("RUNNING")
             false
+        end
+        
+        def deletable?()
+            children = @db[:node_types].filter(:pid=>@id).all()
+            
+            # Check if there are children or not
+            return true if children == []
+            
+            # If there are children, check if they are all DONE or not
+            children.each do |child|
+                if child[:nt_state] != NT_STATE.index("DONE")
+                    return false
+                end
+            end
+            
+            # Passed!
+            true
         end
         
         def running?()
@@ -223,6 +252,14 @@ module OpenNebula
                 else
                     return @parent = NodeType.new(@client, parent_id)                    
                 end
+            end
+        end
+        
+        def nodes
+            if @nodes != nil
+                return @nodes
+            else
+                @nodes = @db[:nodes].filter(:vcid=>vcid(), :ntid=>@id).all.map { |node| OpenNebula::VirtualMachine.new_with_id(node[:vmid], @client) }
             end
         end
                 

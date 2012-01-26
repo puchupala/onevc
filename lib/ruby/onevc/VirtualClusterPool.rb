@@ -17,6 +17,7 @@ module OpenNebula
             results = []
             @vcs.each do |vc|
                 vc = VirtualCluster.new(@client, vc[:oid])
+                next if vc.get_state() == VirtualCluster::VC_STATE.index("DONE")
                 results.push({
                     "TYPE"  => "VC",
                     "ID"    => vc.id,
