@@ -5,6 +5,7 @@ OneVC is as CLI virtual cluster manager for [OpenNebula](http://opennebula.org).
 * OpenNebula 3.0 and up
 * Ruby Gems
     * Sequel
+    * rgl
 
 ## Installation
     $ make install
