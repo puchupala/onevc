@@ -101,9 +101,7 @@ private
                 # HACK: Things went wrong when we split at ','.
                 # Since we don't actually need those f*cked up
                 # params for DB operations, just skip it.
-                if key == nil
-                    next
-                elsif value == nil
+                if (key == nil) or (value == nil)
                     next
                 end
                 
