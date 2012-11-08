@@ -15,7 +15,7 @@ install :
 	cp lib/ruby/onevc/VirtualCluster.rb $(PREFIX)/lib/ruby/onevc/VirtualCluster.rb
 	cp lib/ruby/onevc/VirtualClusterPool.rb $(PREFIX)/lib/ruby/onevc/VirtualClusterPool.rb
 	cp lib/ruby/onevc/NodeType.rb $(PREFIX)/lib/ruby/onevc/NodeType.rb
-	cp lib/ruby/onevc/Configuration.rb $(PREFIX)/lib/ruby/onevc/Configuration.rb
+	cp lib/ruby/onevc/NodeType.rb $(PREFIX)/lib/ruby/onevc/Configuration.rb
 	cp lib/ruby/onevc/onevc_backend.rb $(PREFIX)/lib/ruby/onevc/onevc_backend.rb
 	cp lib/ruby/onevc/onevcd_backend.rb $(PREFIX)/lib/ruby/onevc/onevcd_backend.rb
 	cp lib/ruby/onevc/onevcd.rb $(PREFIX)/lib/ruby/onevc/onevcd.rb
