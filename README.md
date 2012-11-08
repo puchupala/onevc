@@ -4,8 +4,9 @@ OneVC is as CLI virtual cluster manager for [OpenNebula](http://opennebula.org).
 ## Requirement
 * OpenNebula 3.0 and up
 * Ruby Gems
-    * Sequel
+    * sequel
     * rgl
+    * daemons
 
 ## Installation
     $ make install
@@ -15,5 +16,8 @@ OneVC is as CLI virtual cluster manager for [OpenNebula](http://opennebula.org).
     
 ## Usage
     $ onevc <command> <options>
+
+## Issues
+* Support only SQLite and MySQL (Untested) for now.
     
 See onevc help text for more information
