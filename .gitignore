@@ -10,3 +10,4 @@ tmtags
 .buildpath
 .project
 onevc.bbprojectd
+*.pyc
