@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block nav %}
+	<ul class="nav">
+	  <li class="active"><a href="/virtualcluster">Virtual Cluster</a></li>
+	  <li><a href="/nodetype">Node Type</a></li>
+	  <li><a href="/node">Node</a></li>
+	</ul>
+{% endblock nav %}
+
+{% block container %}
+  <h1>Virtual Cluster Monitor</h1>
+  <table class="table table-striped table-bordered">
+  	<thead>
+  		<tr>
+  			<th>id</th>
+				<th>name</th>
+				<th>status</th>
+  		</tr>
+  	</thead>
+		<tbody>
+			<tr>
+				<td>foo</td>
+				<td>bar</td>
+				<td>baz</td>
+			</tr>
+		</tbody>
+  </table>
+{% endblock container %}

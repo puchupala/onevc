@@ -3,12 +3,12 @@ VC_NAME   = "Rocks Cluster"
 NODE_TYPE = [
     NAME = "Compute",
     PARENT = "Frontend",
-    TEMPLATE_ID = 4,
-    NUMBER = 4
+    TEMPLATE_ID = 5,
+    NUMBER = 3
 ]
 
 NODE_TYPE = [
     NAME = "Frontend",
-    TEMPLATE_ID = 3,
+    TEMPLATE_ID = 5,
     NUMBER = 1
 ]
