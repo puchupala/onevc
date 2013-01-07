@@ -194,9 +194,12 @@ module OpenNebula
             # Check if there are children or not
             return true if children() == []
             
-            # If there are children, check if they are all DONE or not
+            # If there are children, check if they are all DONE or PENDING or not
             children().each do |child|
-                return false unless child[:nt_state] == NT_STATE.index("DONE")
+                return false unless (
+                    (child[:nt_state] == NT_STATE.index("DONE")) ||
+                    (child[:nt_state] == NT_STATE.index("PENDING"))
+                )
             end
             
             # Passed!
@@ -207,11 +210,12 @@ module OpenNebula
             # Check if there are children or not
             return true if children() == []
             
-            # If there are children, check if they are all DONE or STOPPED or not
+            # If there are children, check if they are all DONE or STOPPED or PENDING or not
             children().each do |child|
                 return false unless (
                     (child[:nt_state] == NT_STATE.index("DONE")) ||
-                    (child[:nt_state] == NT_STATE.index("STOPPED"))
+                    (child[:nt_state] == NT_STATE.index("STOPPED")) ||
+                    (child[:nt_state] == NT_STATE.index("PENDING"))
                 )
             end
             
@@ -223,12 +227,13 @@ module OpenNebula
             # Check if there are children or not
             return true if children() == []
             
-            # If there are children, check if they are all DONE or SUSPENDED or STOPPED or not
+            # If there are children, check if they are all DONE or SUSPENDED or STOPPED or PENDING or not
             children().each do |child|
                 return false unless (
                     (child[:nt_state] == NT_STATE.index("DONE")) ||
                     (child[:nt_state] == NT_STATE.index("STOPPED")) ||
-                    (child[:nt_state] == NT_STATE.index("SUSPENDED"))
+                    (child[:nt_state] == NT_STATE.index("SUSPENDED")) ||
+                    (child[:nt_state] == NT_STATE.index("PENDING"))
                 )
             end
             

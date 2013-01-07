@@ -155,3 +155,4 @@ LOGGING = {
 }
 
 TEMPLATE_DIRS = '/home/oneadmin/onevc/web/templates/'
+SUNSTONE_URL = 'http://opennebula.hpcnc.com:9869'
