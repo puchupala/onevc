@@ -45,27 +45,35 @@ function createRow(vcid, ntid, nid, vmid, name, state, lcm_state, hostname) {
 function updateDashboard() {
   dashboard = $('#dashboard');
   dashboard.text('');
-    
-  $.getJSON('/api/overview', function(data){
-    $.each(data, function(index, vc){
-      row = createRow(vc.id, '', '', '', vc.name, vc.state, '', '')
-      row.addClass('success');
-      dashboard.append(row);
-      $.each(vc.nodetypes, function(index, nt){
-        row = createRow(vc.id, nt.id, '', '', nt.name, nt.state, '', '')
-        row.addClass('warning');
+  $.getJSON('/api/overview', function(data) {
+
+    $.each(data, function(index, vc) {
+      if (vc.state != 'done') { // Skip DONE
+        row = createRow(vc.id, '', '', '', vc.name, vc.state, '', '');
+        row.addClass('success');
         dashboard.append(row);
-        if (nt.nodes.length > 0) {
-          $.each(nt.nodes, function(index, node){
-            row = createRow(vc.id, nt.id, node.id, node.virtualmachine.id, node.virtualmachine.name, node.virtualmachine.state, node.virtualmachine.lcm_state, node.virtualmachine.hostname);
-            row.addClass('info');
-            dashboard.append(row);
-          });
-        }
-      });
-    });
-  });
-}
+
+        $.each(vc.nodetypes, function(index, nt) {
+
+          row = createRow(vc.id, nt.id, '', '', nt.name, nt.state, '', '')
+          row.addClass('warning');
+          dashboard.append(row);
+
+          if (nt.nodes.length > 0) {
+            $.each(nt.nodes, function(index, node){
+              row = createRow(vc.id, nt.id, node.id, node.virtualmachine.id, node.virtualmachine.name, node.virtualmachine.state, node.virtualmachine.lcm_state, node.virtualmachine.hostname);
+              row.addClass('info');
+              dashboard.append(row);
+            }); // END $.each(nt.nodes...
+          } // END if(nt.nodes...
+
+        }); // END $.each(vc.nodetypes...
+
+      } // END if(vc.state...
+    }); // END function(index, vc)
+    
+  }); // END function(data)
+} // END updateDashboard()
 
 $(document).ready(function() {
   updateDashboard();
