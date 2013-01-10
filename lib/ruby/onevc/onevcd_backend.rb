@@ -1,3 +1,4 @@
+require 'logger'
 require 'OpenNebula'
 include OpenNebula
 require 'Configuration'
@@ -10,12 +11,15 @@ class OneVCDBackend
     
     protected
     
-    def initialize
+    def initialize(logger = Logger.new(STDOUT))
+        @logger = logger
         @db = OneVCBackend::get_backend().db()    
         @client = OpenNebula::Client.new
         # @node_types = @db[:node_types].filter(~{:action => NodeType::ACTION.index("NONE")}).all()
         @node_types = @db[:node_types].all()
         @vcs = @db[:vc_pool].all()
+
+        @logger.debug("OneVCDBackend Initialized")
     end
     
     # TODO: Implement (internal) deployment policy
